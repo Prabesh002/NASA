@@ -6,11 +6,11 @@ You can resubmit until the deadline; the last saved submission is judged.
 Fields marked **YOU** must be in your own words (SI may not come up with the idea or the story).
 Fields marked FACTS are lists you can paste and edit.
 
-## 1. Project name — YOU
+## 1. Project name: YOU
 The site currently shows a working title ("The Rasuwa flood, traced from space by radar"). Replace it in
 `site/public/index.html` (`<title>`, `<h1>`) with your own.
 
-## 2. High-level summary — YOU
+## 2. High-level summary: YOU
 Facts you may want to draw on (all from `research/story-facts.md`, with sources there):
 - What it is: an interactive story map of the 26 Aug 2026 Rasuwa flood, from source to Betrawati.
 - NASA data at the core: NISAR radar, 12 scenes, change detection between passes.
@@ -20,7 +20,7 @@ Facts you may want to draw on (all from `research/story-facts.md`, with sources 
 - The change enters the Lende Khola from the Langtang Lirung side, not from the north.
 - Audience and purpose: yours to state.
 
-## 3. Demo link — YOU (video of 30 s or less, or 7 slides or fewer; English; public, no login)
+## 3. Demo link: YOU (video of 30 s or less, or 7 slides or fewer; English; public, no login)
 Going over the limit makes the project ineligible for global judging. A screen recording of the site
 scrolling from the source to Betrawati fits in 30 s. If SI generates any image or video for it, it needs a
 visible watermark; a plain screen recording of the site does not.
@@ -28,7 +28,7 @@ visible watermark; a plain screen recording of the site does not.
 ## 4. Final project link
 https://nasa.nesomotions.com  (must be public, no login; check in a private window after deploying)
 
-## 5. Project details — YOU, with these FACTS
+## 5. Project details: YOU, with these FACTS
 - What it does: scroll story with a 3D map; radar change overlay; layer panel (three NISAR tracks, HH and
   HV, before/after radar images, ordinary 12-day steps); river profile strip that doubles as navigation;
   "How we know" panel with baseline and control rivers; links to DHM, BIPAD and NDRRMA.
@@ -37,7 +37,7 @@ https://nasa.nesomotions.com  (must be public, no login; check in a private wind
 - Tools and languages: Python (rasterio, NumPy, Pillow, harmony-py), JavaScript, HTML, CSS, Node.js,
   MapLibre GL JS 4.7.1, Cloudflare Workers static assets, Wrangler.
 
-## 6. NASA data and resources used — FACTS
+## 6. NASA data and resources used: FACTS
 - NISAR L2 GCOV, provisional release (collection C2854338529-ASF, CRID P05023), NASA/JPL and ISRO,
   distributed by the Alaska Satellite Facility DAAC. Tracks 98A (10 dates, 20 Jun - 18 Oct 2026),
   48D (16 and 28 Aug), 149D (23 Aug and 4 Sep).
@@ -47,11 +47,11 @@ https://nasa.nesomotions.com  (must be public, no login; check in a private wind
 - NISAR Data User Guide (ASF): https://nisar-docs.asf.alaska.edu/
 - NISAR L2 GCOV Product Specification, JPL D-102274 Rev F.
 
-## 7. Space Agency Partner data — FACTS
+## 7. Space Agency Partner data: FACTS
 - ISRO: NISAR is a joint NASA-ISRO mission. (We used the L-band data distributed by NASA/ASF. We did not
   use ISRO's S-band data.)
 
-## 8. References — FACTS
+## 8. References: FACTS
 - ICIMOD, Kyirong-Rasuwa flood 2026: https://www.icimod.org/kyirong-rasuwa-flood-2026-nepal-china-border/
 - The Kathmandu Post, 26 Aug 2026:
   https://kathmandupost.com/national/2026/08/26/ice-avalanche-debris-lake-may-have-triggered-bhotekoshi-flood
@@ -65,7 +65,7 @@ https://nasa.nesomotions.com  (must be public, no login; check in a private wind
   https://bipadportal.gov.np/ , https://ndrrma.gov.np/
 - Add anything you cite in your own story text (UNOCHA, UNDP, Red Cross, Wikipedia), after reading the originals.
 
-## 9. SI usage — FACTS (edit to match what you actually did)
+## 9. SI usage: FACTS (edit to match what you actually did)
 We used Claude (Anthropic) through Claude Code as a tool. SI was not used to come up with the idea: the
 challenge, the Rasuwa flood study area, the audience and the approach (trace the flood to its source and
 make it usable for residents) were chosen by the team, and the story text is written by the team.

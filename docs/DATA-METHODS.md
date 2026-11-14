@@ -90,7 +90,7 @@ The same change calculation as in section 3, for all eight 12-day pairs on track
 - `pipeline/glacier_season.py` takes the 50 m series, keeps only pixels inside glacier outlines, and for each date subtracts the 20 June value. Blue = echo fell, red = echo rose.
 - It also groups glacier pixels by height (NASADEM) and reports the median echo per date.
 - Measured: above 6,000 m, the share of glacier pixels more than 3 dB below their 20 June value rose to 32.9% on 31 August and was back to 7.2% on 18 October.
-- **Interpretation, not verified:** liquid water in snow absorbs radar, so a falling echo over snow is a commonly used sign of surface melt. We did not check it against weather or ground data. NISAR is L-band, which reacts less to wet snow than C-band. New snow, bare ice and debris also change the echo. Five months cannot show long-term glacier loss.
+- **Unverified interpretation:** liquid water in snow absorbs radar, so a falling echo over snow is a commonly used sign of surface melt. We did not check it against weather or ground data. NISAR is L-band, which reacts less to wet snow than C-band. New snow, bare ice and debris also change the echo. Five months cannot show long-term glacier loss.
 - Glacial lakes: NASA's "High Mountain Asia Near-Global Multi-Decadal Glacial Lake Inventory" version 1 (`HMA_GLI`, NSIDC DAAC), period 2015 to 2018. 12 lakes fall inside the study box.
 - Glacier outlines are from OpenStreetMap. The NASA-hosted Randolph Glacier Inventory 7.0 needs an interactive Earthdata login that the script could not complete.
 
@@ -98,9 +98,9 @@ The same change calculation as in section 3, for all eight 12-day pairs on track
 
 - Elevation: NASADEM version 1 (NASA LP DAAC), tiles n27e085 and n28e085, 1 arc-second (about 30 m), measured in February 2000.
 - `pipeline/terrain_context.py` fills pits and depressions, then gives every cell a pointer to its steepest downhill neighbour (D8 flow direction, pysheds library).
-- "Drop water": the browser follows those pointers from the clicked cell until it reaches the edge of the data. It is a route, not a simulation. No water volume, depth, speed or time.
+- "Drop water": the browser follows those pointers from the clicked cell until it reaches the edge of the data. It draws a route and does not simulate water, so there is no volume, depth, speed or time.
 - "Low ground": height above the nearest river channel (HAND). Rivers are cells with at least 25 km² of land draining into them. Cells under 10 m and 10 to 20 m above their river cell are shaded. In this box that is 1.3% and 2.1% of the area.
-- Limits: NASADEM has metre-scale height errors that grow on steep slopes, and 30 m cells cannot resolve narrow gorges. This is terrain screening, not a hazard map.
+- Limits: NASADEM has metre-scale height errors that grow on steep slopes, and 30 m cells cannot resolve narrow gorges. Treat this as a first look at the terrain. It does not replace a hazard map.
 
 ## 6. What is NASA data and what is not
 
@@ -118,7 +118,7 @@ The Space Apps rules require at least one NASA data source and a full list of ev
 
 ## 7. What this cannot tell you
 
-- Radar change is not a damage map. It shows where the surface changed, not what was lost.
+- Radar change is not a damage map. It shows where the surface changed and cannot show what was lost.
 - Each period is 12 days. Anything else that happened in those days is included.
 - Steep slopes distort radar. The product's mask does not flag those places.
 - River lines can sit tens of metres off the real channel.

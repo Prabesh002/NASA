@@ -386,8 +386,8 @@
   const LEGEND = {
     flood: [[`<i class="sw rose"></i>Ground changed: echo stronger`, `<i class="sw fell"></i>Ground changed: echo weaker`, `<i class="sw line"></i>Traced flood path`], "Click any spot for its radar record on ten dates."],
     season: [[`<i class="sw rose"></i>Echo stronger than 12 days before`, `<i class="sw fell"></i>Echo weaker`], "Drag the slider or press Play. Click any spot for its record."],
-    glacier: [[`<i class="sw fell"></i>Echo lower than on 20 Jun`, `<i class="sw rose"></i>Echo higher`, `<i class="sw ring"></i>Glacial lake (click one)`], "Blue on high snow is a possible sign of surface melt, not a measurement of it."],
-    water: [[`<i class="sw" style="background:${LOW10}"></i>Under 10 m above the river`, `<i class="sw" style="background:${LOW20}"></i>10 to 20 m above`, `<i class="sw line"></i>Downhill route`], "Click the map to drop water. Shape of the land only, not a flood forecast."],
+    glacier: [[`<i class="sw fell"></i>Echo lower than on 20 Jun`, `<i class="sw rose"></i>Echo higher`, `<i class="sw ring"></i>Glacial lake (click one)`], "Blue on high snow may be a sign of surface melt. We have not verified it."],
+    water: [[`<i class="sw" style="background:${LOW10}"></i>Under 10 m above the river`, `<i class="sw" style="background:${LOW20}"></i>10 to 20 m above`, `<i class="sw line"></i>Downhill route`], "Click the map to drop water. The route follows the shape of the land and does not forecast a flood."],
   };
   function setMode(m) {
     if (m !== "flood" && view === "compare") setView("flood");
