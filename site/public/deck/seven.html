@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Rasuwa flood, traced from space: talk</title>
-<meta name="description" content="Longer talk version of the slides on tracing the 26 August 2026 Rasuwa flood with NASA-ISRO NISAR radar.">
+<title>The Rasuwa flood, traced from space: presentation</title>
+<meta name="description" content="Seven slides on tracing the 26 August 2026 Rasuwa flood with NASA-ISRO NISAR radar.">
 <!-- SI disclosure (Space Apps 2026): this deck's code and layout were written with SI assistance (Claude Fable 5.2, Anthropic).
      The clips are recordings of the project website showing NISAR measurements; they are not SI-generated imagery. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,24 +73,6 @@ p.big b { color: var(--ink); font-weight: 600; }
 .foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; }
 .foot .url { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; } .foot .url small { display: block; font-size: 20px; color: var(--dim); font-weight: 400; margin-top: 6px; letter-spacing: 0; }
 
-/* talk-only slides */
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: s; }
-.steps div { counter-increment: s; background: var(--panel); border: 1px solid var(--line); border-radius: 28px; padding: 30px 30px 34px; }
-.steps div::before { content: counter(s); display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid #48484a; font-weight: 600; font-size: 22px; margin-bottom: 22px; }
-.steps b { display: block; font-size: 30px; line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 14px; }
-.steps span { font-size: 22px; line-height: 1.35; color: var(--dim); }
-.who { display: grid; grid-template-columns: 330px 1fr 1fr; column-gap: 40px; }
-.who > * { padding: 20px 0; border-top: 1px solid var(--line); font-size: 25px; line-height: 1.3; color: var(--dim); }
-.who .hd { border-top: 0; padding: 0 0 12px; font-size: 19px; color: #6e6e73; }
-.who b { color: var(--ink); font-weight: 600; font-size: 28px; }
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
-.two .card b { font-size: 38px; }
-.two .card p { font-size: 25px; line-height: 1.35; color: var(--dim); }
-.two .card p + p { margin-top: 14px; font-size: 20px; }
-.limits { list-style: none; padding: 0; display: grid; gap: 0; }
-.limits li { font-size: 32px; line-height: 1.3; padding: 22px 0; border-top: 1px solid var(--line); color: var(--ink); }
-.limits li span { color: var(--dim); }
-
 /* chrome */
 #nav { position: fixed; left: 0; right: 0; bottom: 18px; display: flex; justify-content: center; gap: 10px; z-index: 5; }
 #nav button { width: 34px; height: 6px; border-radius: 3px; border: 0; background: #3a3a3c; cursor: pointer; padding: 0; transition: background .3s, width .3s; }
@@ -103,7 +85,7 @@ p.big b { color: var(--ink); font-weight: 600; }
 <body>
 <main id="stage">
 
-  <section class="slide on" id="s1">
+  <section class="slide on" id="s1" aria-label="Slide 1 of 7">
     <img class="bg" src="overview.webp" alt="">
     <div class="veil"></div>
     <div class="col">
@@ -113,7 +95,7 @@ p.big b { color: var(--ink); font-weight: 600; }
     </div>
   </section>
 
-  <section class="slide" id="s2">
+  <section class="slide" id="s2" aria-label="Slide 2 of 7">
     <div class="col" style="width:100%">
       <h2 data-in style="--i:0">I wanted to know where the flood went and how much it changed the valley.</h2>
       <div class="facts">
@@ -124,20 +106,7 @@ p.big b { color: var(--ink); font-weight: 600; }
     </div>
   </section>
 
-
-  <section class="slide" id="t-how">
-    <div class="col" style="width:100%; gap:48px">
-      <h2 data-in style="--i:0">How it works, in four steps</h2>
-      <div class="steps">
-        <div data-in style="--i:1"><b>Download the radar</b><span>NISAR data is free from NASA. I took 14 passes over Rasuwa, from June to October.</span></div>
-        <div data-in style="--i:2"><b>Compare two passes</b><span>For every 10 m square I divide the later pass by the earlier one. A big ratio means the ground there changed.</span></div>
-        <div data-in style="--i:3"><b>Measure along the river</b><span>I keep the ground within 100 m of the river and count what share of it changed, every 500 m.</span></div>
-        <div data-in style="--i:4"><b>Put it on a map</b><span>The results become map layers and small data files. The website only displays them.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide split" id="s3">
+  <section class="slide split" id="s3" aria-label="Slide 3 of 7">
     <div class="col">
       <h2 data-in style="--i:0">The same valley before and after the flood</h2>
       <p class="big" data-in style="--i:1">NISAR comes back over the same path every 12 days. I compared each visit with the one before it.</p>
@@ -146,7 +115,7 @@ p.big b { color: var(--ink); font-weight: 600; }
     <div class="media" data-in style="--i:1"><img src="compare.webp" alt="The compare slider moving across the source of the flood: almost no colour on the ordinary side, dense red and blue on the flood side"><small>Recorded from the project site</small></div>
   </section>
 
-  <section class="slide" id="s4">
+  <section class="slide" id="s4" aria-label="Slide 4 of 7">
     <div class="col" style="width:100%; gap:56px">
       <h2 data-in style="--i:0">How much of the riverside changed</h2>
       <div class="versus">
@@ -157,7 +126,7 @@ p.big b { color: var(--ink); font-weight: 600; }
     </div>
   </section>
 
-  <section class="slide split" id="s5">
+  <section class="slide split" id="s5" aria-label="Slide 5 of 7">
     <div class="col">
       <h2 data-in style="--i:0">I checked that this was the flood</h2>
       <ol class="checks">
@@ -169,7 +138,7 @@ p.big b { color: var(--ink); font-weight: 600; }
     <div class="media" data-in style="--i:1"><img src="season.webp" alt="The season view stepping through eight 12-day periods; only the period of 19 to 31 August shows a dense trail of change"><small>Recorded from the project site. Each frame is one 12-day period.</small></div>
   </section>
 
-  <section class="slide split" id="s6">
+  <section class="slide split" id="s6" aria-label="Slide 6 of 7">
     <div class="col">
       <h2 data-in style="--i:0">Click a spot to see its record</h2>
       <p class="big" data-in style="--i:1">This spot near the source stayed flat for two months, jumped <b>9.3 dB</b> across the flood, and had not gone back by October.</p>
@@ -182,44 +151,7 @@ p.big b { color: var(--ink); font-weight: 600; }
     <div class="media" data-in style="--i:1"><img src="record.webp" alt="The map at the flood source with a card charting radar brightness on ten dates; the line jumps between 19 and 31 August"><small>Recorded from the project site</small></div>
   </section>
 
-
-  <section class="slide" id="t-who">
-    <div class="col" style="width:100%; gap:36px">
-      <h2 data-in style="--i:0">Who can use this, and what for</h2>
-      <div class="who" data-in style="--i:1">
-        <span class="hd">Who</span><span class="hd">What they do on the site</span><span class="hd">What they get</span>
-        <b>People living along the river</b><span>Scroll to their stretch, or click their village on the map.</span><span>They see whether the ground near them changed, and how much compared with a normal period.</span>
-        <b>The municipality and disaster offices</b><span>Read the strip under the map, which runs from the source to Betrawati.</span><span>They see which stretches changed most, which helps decide where to send a survey team first.</span>
-        <b>Students and teachers</b><span>Click a spot and press Download CSV.</span><span>A real NASA radar record of ten dates that they can plot in a spreadsheet.</span>
-        <b>Researchers</b><span>Open the data and methods page and the scripts on GitHub.</span><span>They can repeat my measurement or adapt the scripts for another valley.</span>
-      </div>
-      <p class="small" data-in style="--i:2">These are the people I built it for. I have not tested it with them yet.</p>
-    </div>
-  </section>
-
-  <section class="slide" id="t-more">
-    <div class="col" style="width:100%; gap:40px">
-      <h2 data-in style="--i:0">Two more things on the site</h2>
-      <div class="two">
-        <div class="card" data-in style="--i:1"><h3>Glaciers tab</h3><b>The ice above the valley</b><p>Wet snow sends back a weaker radar echo. Above 6,000 m, 33% of the ice had a much weaker echo by 31 August than on 20 June, and by 18 October it was back to 7%.</p><p>This may be a sign of melting. I could not check it on the ground.</p></div>
-        <div class="card" data-in style="--i:2"><h3>Water paths tab</h3><b>Where water would run</b><p>Click any point, such as one of the 12 glacial lakes from a NASA inventory, and a line follows the slope downhill and lists the villages below it.</p><p>It uses NASA elevation data and only knows the shape of the land. It does not forecast a flood.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide" id="t-limits">
-    <div class="col" style="width:100%; gap:36px">
-      <h2 data-in style="--i:0">What it cannot do</h2>
-      <ul class="limits">
-        <li data-in style="--i:1">It cannot warn anyone. <span>The satellite passes every 12 days, and warnings come from DHM and NDRRMA.</span></li>
-        <li data-in style="--i:2">It cannot show what people lost. <span>Radar sees that the ground changed and does not know what stood there.</span></li>
-        <li data-in style="--i:3">It includes everything in those 12 days. <span>A landslide or new construction in the same period would show up too.</span></li>
-        <li data-in style="--i:4">The data is a provisional release. <span>NASA has calibrated it and has not finished validating it.</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="slide" id="s7">
+  <section class="slide" id="s7" aria-label="Slide 7 of 7">
     <div class="col" style="width:100%; gap:40px">
       <h2 data-in style="--i:0">Who did what</h2>
       <div class="three">
