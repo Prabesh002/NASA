@@ -611,6 +611,7 @@
   }
 
   let map2 = null, map2Ready = false;
+  let glacierTimer = null;
   async function init() {
     const [sty, st, fp, lm, gm, tm] = await Promise.all([
       fetch("https://tiles.openfreemap.org/styles/positron").then((r) => r.json()),
@@ -670,6 +671,15 @@
       if (k === "compare") { setMode("flood"); setView("compare"); }
       if (k === "mode") setMode(v);
       if (k === "season-play") { setMode("season"); setSeason(0); seasonPlay(true); }
+      if (k === "play") { setMode("flood"); setView("flood"); startPlay(); }
+      if (k === "inspect") { const c = CHAPTERS[currentChapter] || {}, at = c.kmAt || c.center; setMode("flood"); inspect({ lng: at[0], lat: at[1] }); }
+      if (k === "drop") { setMode("water"); dropWater({ lng: 85.50, lat: 28.31 }, "The flood source"); }
+      if (k === "glacier-play") {
+        setMode("glacier"); clearInterval(glacierTimer);
+        let i = 0; const r = $("#glacier-range"), n = +r.max;
+        const step = () => { r.value = i; setGlacier(i); if (++i > n) clearInterval(glacierTimer); };
+        step(); glacierTimer = setInterval(step, 1100);
+      }
     });
     setMode("flood");
   }
