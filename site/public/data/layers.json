@@ -1,0 +1,350 @@
+{
+ "layers": [
+  {
+   "layer": "base-098A-hh-0620",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-06-20_2026-07-02_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-06-20_2026-07-02_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 246,
+   "generated_utc": "2026-11-14T05:39:37.331089+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "base-098A-hh-0702",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-07-02_2026-07-14_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-07-02_2026-07-14_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 246,
+   "generated_utc": "2026-11-14T05:39:48.738937+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "base-098A-hh-0714",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-07-14_2026-07-26_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-07-14_2026-07-26_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 246,
+   "generated_utc": "2026-11-14T05:39:59.669603+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "base-098A-hh-0831",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-08-31_2026-09-12_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-08-31_2026-09-12_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 246,
+   "generated_utc": "2026-11-14T05:40:10.147671+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "base-098A-hh-0912",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-09-12_2026-09-24_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-09-12_2026-09-24_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 246,
+   "generated_utc": "2026-11-14T05:40:21.145778+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "base-098A-hh-0924",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-09-24_2026-10-06_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-09-24_2026-10-06_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 246,
+   "generated_utc": "2026-11-14T05:40:33.089118+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "base-098A-hh-1006",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-10-06_2026-10-18_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-10-06_2026-10-18_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 246,
+   "generated_utc": "2026-11-14T05:40:43.819990+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "chg-048D-hh",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/048D_074_2026-08-16_2026-08-28_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/048D_074_2026-08-16_2026-08-28_HHHH_logratio_dB.tif",
+    "data/work/change/gcov/048D_075_2026-08-16_2026-08-28_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 225,
+   "generated_utc": "2026-11-14T05:27:46.074779+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "chg-098A-hh",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 14,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-08-19_2026-08-31_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-08-19_2026-08-31_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 918,
+   "generated_utc": "2026-11-14T05:24:30.217120+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "chg-098A-hv",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 14,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/098A_016_2026-08-19_2026-08-31_HVHV_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-08-19_2026-08-31_HVHV_logratio_dB.tif"
+   ],
+   "tiles": 918,
+   "generated_utc": "2026-11-14T05:24:59.285420+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "chg-149D-hh",
+   "kind": "change",
+   "minzoom": 8,
+   "maxzoom": 13,
+   "bounds": [
+    85.07918938210624,
+    27.837671111069056,
+    85.65946084629253,
+    28.430537638148987
+   ],
+   "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+   },
+   "sources": [
+    "data/work/change/gcov/149D_074_2026-08-23_2026-09-04_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/149D_074_2026-08-23_2026-09-04_HHHH_logratio_dB.tif"
+   ],
+   "tiles": 113,
+   "generated_utc": "2026-11-14T05:25:15.333952+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "sar-098A-0819",
+   "kind": "sar",
+   "minzoom": 8,
+   "maxzoom": 14,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB (gamma-0)",
+    "black": -24.0,
+    "white": -2.0
+   },
+   "sources": [
+    "data/raw/gcov/098A_016_2026-08-19_before/463268547_NISAR_L2_PR_GCOV_028_098_A_016_4005_DHDH_A_20260819T233918_20260819T233953_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif",
+    "data/raw/gcov_source/098A_016_2026-08-19_before/463296920_NISAR_L2_PR_GCOV_028_098_A_016_4005_DHDH_A_20260819T233918_20260819T233953_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif"
+   ],
+   "tiles": 919,
+   "generated_utc": "2026-11-14T05:25:44.699642+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  },
+  {
+   "layer": "sar-098A-0831",
+   "kind": "sar",
+   "minzoom": 8,
+   "maxzoom": 14,
+   "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+   ],
+   "scale": {
+    "unit": "dB (gamma-0)",
+    "black": -24.0,
+    "white": -2.0
+   },
+   "sources": [
+    "data/raw/gcov/098A_016_2026-08-31_after/463296955_NISAR_L2_PR_GCOV_029_098_A_016_4005_DHDH_A_20260831T233918_20260831T233952_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif",
+    "data/raw/gcov_source/098A_016_2026-08-31_after/463297049_NISAR_L2_PR_GCOV_029_098_A_016_4005_DHDH_A_20260831T233918_20260831T233952_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif"
+   ],
+   "tiles": 919,
+   "generated_utc": "2026-11-14T05:26:12.290700+00:00",
+   "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+  }
+ ]
+}

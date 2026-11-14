@@ -1,0 +1,38 @@
+{
+ "generated_utc": "2026-11-14T10:38:02.765757+00:00",
+ "dem": "NASADEM_HGT v001 (NASA LP DAAC), tiles n27e085, n28e085, 1 arc-second, acquired February 2000",
+ "flowdir": {
+  "file": "flowdir.png",
+  "west": 85.04986111111111,
+  "north": 28.450138888888887,
+  "step_deg": 0.0002777777777777778,
+  "width": 2340,
+  "height": 2340,
+  "codes": "0 none; 1..8 = N, NE, E, SE, S, SW, W, NW",
+  "method": "pysheds: fill pits, fill depressions, resolve flats, D8"
+ },
+ "lowground": {
+  "file": "lowground.png",
+  "bounds_lonlat": [
+   85.05,
+   27.8,
+   85.7,
+   28.45
+  ],
+  "classes_m": [
+   10.0,
+   20.0
+  ],
+  "stream_min_upstream_km2": 25.0,
+  "share_of_box": [
+   0.013464783911367807,
+   0.02082123754043064
+  ],
+  "method": "height above nearest drainage (HAND), pysheds compute_hand"
+ },
+ "lakes": {
+  "file": "glacial_lakes.geojson",
+  "count": 12,
+  "source": "HMA_GLI v1 (NASA NSIDC DAAC), period 2015-2018"
+ }
+}

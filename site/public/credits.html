@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credits, data and methods: Rasuwa flood traced with NISAR radar</title>
+<meta name="generator" content="Hand-written HTML; written with SI assistance (Claude, Anthropic)">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/page.css">
+</head>
+<body class="page">
+<p><a href="/">Back to the map</a></p>
+<h1>Credits, data and methods</h1>
+<p>Everything shown on the map is a measurement or a cited statement. This page lists every dataset, tool and reference used, and how the numbers were made.</p>
+
+<h2>NASA data</h2>
+<table>
+<tr><th>Dataset</th><th>Details</th></tr>
+<tr><td>NISAR L2 GCOV (geocoded polarimetric covariance), provisional release</td><td>NASA/JPL and ISRO NISAR mission. Collection <code>C2854338529-ASF</code>, processing version (CRID) P05023. Distributed by the Alaska Satellite Facility DAAC. Layers used: HHHH and HVHV backscatter (gamma-0) and the validity mask, L-band frequency A. Subsets requested through NASA Harmony on 14 Nov 2026. NISAR follows NASA’s standard data use and citation guidance.</td></tr>
+<tr><td>Scenes, track 98 ascending, frame 16</td><td>20 Jun, 2 Jul, 14 Jul, 26 Jul, 19 Aug, 31 Aug, 12 Sep, 24 Sep, 6 Oct and 18 Oct 2026 (same radar mode on every date).</td></tr>
+<tr><td>Scenes, track 48 descending, frames 74 and 75</td><td>16 Aug and 28 Aug 2026.</td></tr>
+<tr><td>Scenes, track 149 descending, frame 74</td><td>23 Aug and 4 Sep 2026.</td></tr>
+<tr><td>NASA services and documents</td><td>NASA Harmony (subsetting), NASA Common Metadata Repository (granule search), ASF NISAR Data User Guide, NISAR L2 GCOV Product Specification JPL D-102274 Rev F.</td></tr>
+<tr><td>NASADEM Merged DEM Global 1 arc second, version 1</td><td>NASA LP DAAC, collection <code>C2763264762-LPCLOUD</code>, tiles n27e085 and n28e085, measured February 2000. Used for downhill routes, low ground near rivers and glacier height bands. Retrieved 14 Nov 2026.</td></tr>
+<tr><td>High Mountain Asia Near-Global Multi-Decadal Glacial Lake Inventory, version 1 (HMA_GLI)</td><td>NASA NSIDC DAAC, collection <code>C3249539102-NSIDC_CPRD</code>, period 2015 to 2018. 12 lake outlines inside the study box. Retrieved 14 Nov 2026.</td></tr>
+</table>
+
+<h2>Space agency partner data</h2>
+<p>NISAR is a joint mission of NASA and the Indian Space Research Organisation (ISRO).</p>
+
+<h2>Other data</h2>
+<table>
+<tr><th>Dataset</th><th>Details</th></tr>
+<tr><td>OpenStreetMap</td><td>Waterway lines, place and peak points. © OpenStreetMap contributors, Open Database License 1.0. Retrieved through the Overpass API on 14 Nov 2026.</td></tr>
+<tr><td>Basemap</td><td>OpenFreeMap “dark” style, © OpenMapTiles, data © OpenStreetMap contributors.</td></tr>
+<tr><td>Terrain</td><td>Mapzen Terrain Tiles (Terrarium), hosted on AWS Open Data. Used for hill shading and the 3D view, drawn at true vertical scale.</td></tr>
+</table>
+
+<h2>References for the event</h2>
+<ul>
+<li>ICIMOD, “Kyirong–Rasuwa flood 2026”: <a href="https://www.icimod.org/kyirong-rasuwa-flood-2026-nepal-china-border/">icimod.org</a> (read 14 Nov 2026).</li>
+<li>The Kathmandu Post, 26 Aug 2026: <a href="https://kathmandupost.com/national/2026/08/26/ice-avalanche-debris-lake-may-have-triggered-bhotekoshi-flood">ice avalanche and debris lake report</a>; <a href="https://kathmandupost.com/national/2026/08/26/major-flood-damages-syabrubesi-hydropower-projects-in-rasuwa">Syabrubesi hydropower report</a>.</li>
+</ul>
+
+<h2>Method</h2>
+<ol>
+<li>For each scene, NASA Harmony clips the three layers to the study area (85.10–85.65°E, 27.85–28.42°N, in two boxes) and returns GeoTIFFs in UTM zone 45N at 10 m (20 m for one radar mode).</li>
+<li>Pairs are consecutive passes on the same track, 12 days apart. The later scene is put on the earlier scene’s grid.</li>
+<li>Pixels flagged invalid in either scene’s mask are dropped. Backscatter power is averaged in a 5 × 5 pixel window, then change = 10 · log10(after / before), in decibels.</li>
+<li>River paths are traced downstream along OpenStreetMap waterway lines. Pixels within 100 m of a path are grouped into 500 m bins by distance downstream. Per bin we report the share of pixels whose change exceeds ±3 dB.</li>
+<li>The same statistic is computed for every other 12-day step on track 98 (June to October 2026) and for four neighbouring rivers, as a baseline for ordinary change.</li>
+<li>Map tiles are the change rasters resampled to Web Mercator and coloured: blue for a fall, red for a rise, transparent below 1.5 dB, fully opaque from 4 dB.</li>
+</ol>
+<p>The step from 26 Jul to 19 Aug is not used: it spans a mission-wide data gap and is 24 days long.</p>
+
+<h2>What this is not</h2>
+<p>This is a hackathon prototype. Radar change shows where the surface changed between two passes, not what was damaged. The data are provisional releases. Nothing here is an official assessment, a forecast or a warning.</p>
+
+<h2>Software</h2>
+<p>Python with rasterio, NumPy, Pillow and harmony-py; Node.js for web requests; MapLibre GL JS 4.7.1 (BSD-3-Clause); fonts Archivo and Source Serif 4 (SIL Open Font License) from Google Fonts; hosted on Cloudflare Workers static assets.</p>
+
+<h2>SI use</h2>
+<p>See the <a href="/si-usage.html">SI disclosure</a>.</p>
+<p>Flow directions and height above the nearest river were computed with the open-source library pysheds 0.5 (GPL-3.0). Full method: <a href="/research.html">data and methods</a>.</p>
+</body>
+</html>

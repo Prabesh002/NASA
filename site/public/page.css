@@ -1,0 +1,11 @@
+/* Text pages (credits, SI disclosure). Written with SI assistance (Claude, Anthropic). */
+body.page { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.2rem 5rem; }
+.page h1 { font-size: 2.1rem; }
+.page h2 { margin-top: 2.2rem; }
+.page p, .page li { font-size: 1rem; line-height: 1.6; }
+.page table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.6rem; }
+.page th, .page td { text-align: left; padding: 0.45rem 0.7rem 0.45rem 0; border-bottom: 1px solid var(--slate-2); vertical-align: top; }
+.page th { color: var(--mist); font-weight: 600; }
+.page code { font-size: 0.86em; color: var(--silt); }
+.page pre { background: var(--wash); padding: 0.9rem 1rem; border-radius: 10px; overflow: auto; font-size: 0.84rem; }
+.page h1, .page h2 { text-wrap: balance; }

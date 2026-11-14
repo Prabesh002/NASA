@@ -1,0 +1,13 @@
+{
+  // Static site served by Cloudflare Workers Static Assets. No Worker script: every request is a file.
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "rasuwa-flood-nisar",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  "routes": [{ "pattern": "nasa.nesomotions.com", "custom_domain": true }],
+  "assets": {
+    "directory": "./site/public",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  }
+}

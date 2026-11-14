@@ -1,0 +1,24 @@
+{
+  "layer": "sar-098A-0819",
+  "kind": "sar",
+  "minzoom": 8,
+  "maxzoom": 14,
+  "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+  ],
+  "scale": {
+    "unit": "dB (gamma-0)",
+    "black": -24.0,
+    "white": -2.0
+  },
+  "sources": [
+    "data/raw/gcov/098A_016_2026-08-19_before/463268547_NISAR_L2_PR_GCOV_028_098_A_016_4005_DHDH_A_20260819T233918_20260819T233953_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif",
+    "data/raw/gcov_source/098A_016_2026-08-19_before/463296920_NISAR_L2_PR_GCOV_028_098_A_016_4005_DHDH_A_20260819T233918_20260819T233953_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif"
+  ],
+  "tiles": 919,
+  "generated_utc": "2026-11-14T05:25:44.699642+00:00",
+  "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+}

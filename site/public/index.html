@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- USER: replace the title and description with your own wording -->
+<title>Rasuwa flood, 26 August 2026: traced with NISAR radar</title>
+<meta name="description" content="An interactive map that follows the 26 August 2026 Rasuwa flood from its source to Betrawati using NASA-ISRO NISAR radar change detection.">
+<!-- SI disclosure (Space Apps 2026): the code of this site and its data-processing pipeline was written
+     with SI assistance (Claude, Anthropic). The idea, study area, audience and story text are the
+     team's own. Details: /si-usage.html -->
+<meta name="generator" content="Hand-written HTML/CSS/JS; code written with SI assistance (Claude, Anthropic)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vendor/maplibre-gl.css">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="mappane">
+  <div id="map" aria-label="Map of the Lende Khola, Bhote Koshi and Trishuli valleys with radar change overlay"></div>
+  <div id="map2" aria-hidden="true"></div>
+  <div id="swipe" hidden>
+    <span class="side-tag left" id="tag-left"></span>
+    <span class="side-tag right"></span>
+    <input id="swipe-range" type="range" min="0" max="100" value="50" aria-label="Slide between an ordinary 12 days (left) and the flood 12 days (right)">
+    <div id="swipe-line"><i></i></div>
+  </div>
+
+  <div id="controls">
+    <div class="seg" id="modes" role="group" aria-label="What the map shows">
+      <button type="button" data-mode="flood" aria-pressed="true">Flood</button>
+      <button type="button" data-mode="season" aria-pressed="false">Season</button>
+      <button type="button" data-mode="glacier" aria-pressed="false">Glaciers</button>
+      <button type="button" data-mode="water" aria-pressed="false">Water paths</button>
+    </div>
+    <details id="more">
+      <summary>More layers</summary>
+      <div class="more-body">
+        <label class="row">Flood measurement
+          <select id="flood-select" aria-label="Which radar measurement of the flood period">
+            <option value="chg-098A-hh">Track 98, HH, 19 to 31 Aug (used for all numbers)</option>
+            <option value="chg-098A-hv">Track 98, HV, 19 to 31 Aug</option>
+            <option value="chg-048D-hh">Track 48, HH, 16 to 28 Aug</option>
+            <option value="chg-149D-hh">Track 149, HH, 23 Aug to 4 Sep (partial coverage)</option>
+          </select></label>
+        <label class="row">Ordinary period in the comparison
+          <select id="base-select" aria-label="Which ordinary 12-day period the slider compares against"></select></label>
+        <label class="row">Background
+          <select id="bg-select" aria-label="Map background">
+            <option value="map">Map</option>
+            <option value="sar-098A-0819">Radar image, 19 Aug (before)</option>
+            <option value="sar-098A-0831">Radar image, 31 Aug (after)</option>
+          </select></label>
+        <label class="check"><input type="checkbox" id="chg-on" checked> Show the change colours</label>
+      </div>
+    </details>
+    <div id="subbar">
+      <div data-for="flood">
+        <button type="button" class="pill" id="cmp-btn" aria-pressed="false">Slide to compare</button>
+        <button type="button" class="pill play" id="play-btn">Play the flood path</button>
+      </div>
+      <div data-for="season" hidden>
+        <button type="button" class="pill play" id="season-play">Play</button>
+        <label class="slider"><span id="season-label"></span>
+          <input type="range" id="season-range" min="0" max="7" step="1" value="3" aria-label="12-day period"></label>
+      </div>
+      <div data-for="glacier" hidden>
+        <label class="slider"><span id="glacier-label"></span>
+          <input type="range" id="glacier-range" min="0" max="8" step="1" value="4" aria-label="Date compared with 20 June"></label>
+      </div>
+      <div data-for="water" hidden>
+        <label class="pill check"><input type="checkbox" id="low-on" checked> Low ground by rivers</label>
+      </div>
+    </div>
+  </div>
+
+  <div id="card" hidden>
+    <button type="button" id="card-close" aria-label="Close">Close</button>
+    <div id="card-body" aria-live="polite"></div>
+  </div>
+
+  <p id="play-note" hidden></p>
+
+  <div id="legend" aria-label="Legend">
+    <div class="keys" id="legend-keys"></div>
+    <p id="legend-tip"></p>
+  </div>
+
+  <div id="profile" aria-label="Radar change along the river from source to Betrawati">
+    <div class="profile-head"><span id="profile-title">How much riverside ground changed, from the source (left) to Betrawati (right)</span><span id="profile-readout"></span></div>
+    <svg id="profile-svg" preserveAspectRatio="none" role="img"></svg>
+  </div>
+</div>
+
+<main id="story">
+
+  <section class="chapter is-title" data-chapter="intro">
+    <div class="card">
+      <p class="kicker">Rasuwa, Nepal. 26 August 2026</p>
+      <!-- USER TEXT: project title (replace the working title below) -->
+      <h1>The Rasuwa flood, traced from space by radar</h1>
+      <div class="user-text" data-slot="intro"><!-- USER TEXT: opening paragraph(s). Wrap each paragraph in <p>...</p> --></div>
+      <p class="lede">On 26 August 2026 a flood came down the Lende Khola and the Bhote Koshi into Rasuwa. The radar satellite NISAR had passed over the valley a week earlier, and it passed again five days later. This site lays the two passes over each other and marks every place where the ground no longer looked the same.</p>
+      <div id="finding"></div>
+      <ol class="howto" aria-label="How to use this page">
+        <li><b>Follow the flood.</b> Scroll this column. The map moves from the source to Betrawati, and each stop says how much of the riverside changed there.</li>
+        <li><b>Compare it with a normal fortnight.</b> Press <button type="button" class="inline-link" data-do="compare">Slide to compare</button>. Left of the slider is an ordinary 12 days in the monsoon, right is the 12 days with the flood.</li>
+        <li><b>Click any spot on the map.</b> You get that spot's radar record for ten dates, as a chart and as a file you can download.</li>
+        <li><b>Try the other tabs.</b> <button type="button" class="inline-link" data-do="mode:season">Season</button> plays June to October. <button type="button" class="inline-link" data-do="mode:glacier">Glaciers</button> shows the ice above the valley. <button type="button" class="inline-link" data-do="mode:water">Water paths</button> draws where water runs from any point you click.</li>
+      </ol>
+      <div class="readme" id="how-to-read">
+        <h3>How to read the colours</h3>
+        <p>The satellite passed over on 19 August and again on 31 August. The flood came on 26 August, in between. Where the ground reflected the radar very differently on the second pass, the map is coloured. <span class="dot rose"></span>Red means the echo got stronger, <span class="dot fell"></span>blue means it got weaker. Either colour means the surface changed. That can be new debris, boulders that moved, vegetation that is gone, or water where there was none.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="source">
+    <div class="card">
+      <p class="km" data-km-label="source"></p>
+      <h2>The source, north of Langtang Lirung</h2>
+      <div class="user-text" data-slot="source"><!-- USER TEXT: chapter 1, the source --></div>
+      <div class="measure" data-measure="source"></div>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li>Radar: NISAR L2 GCOV, track 98 ascending, 19 and 31 Aug 2026 (NASA/JPL and ISRO, via ASF DAAC).</li>
+        <li>Event description: <a href="https://www.icimod.org/kyirong-rasuwa-flood-2026-nepal-china-border/">ICIMOD, Kyirong–Rasuwa flood 2026</a>.</li>
+        <li>Peak position and stream lines: OpenStreetMap contributors.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="lende">
+    <div class="card">
+      <p class="km" data-km-label="lende"></p>
+      <h2>Down the Lende Khola</h2>
+      <div class="user-text" data-slot="lende"><!-- USER TEXT: chapter 2, the debris flow in the Lende Khola valley; the disputed dam --></div>
+      <div class="measure" data-measure="lende"></div>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li>Radar: NISAR L2 GCOV, track 98 ascending, 19 and 31 Aug 2026.</li>
+        <li><a href="https://www.icimod.org/kyirong-rasuwa-flood-2026-nepal-china-border/">ICIMOD</a>; <a href="https://kathmandupost.com/national/2026/08/26/ice-avalanche-debris-lake-may-have-triggered-bhotekoshi-flood">Kathmandu Post, 26 Aug 2026</a>.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="rasuwagadhi">
+    <div class="card">
+      <p class="km" data-km-label="rasuwagadhi"></p>
+      <h2>Rasuwagadhi, where two rivers meet</h2>
+      <div class="user-text" data-slot="rasuwagadhi"><!-- USER TEXT: chapter 3, the confluence at the border crossing; Rasuwagadhi and Timure --></div>
+      <div class="measure" data-measure="rasuwagadhi"></div>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li>Radar: NISAR L2 GCOV, track 98 ascending, 19 and 31 Aug 2026.</li>
+        <li><a href="https://www.icimod.org/kyirong-rasuwa-flood-2026-nepal-china-border/">ICIMOD</a>.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="minutes">
+    <div class="card">
+      <h2>The warning minutes</h2>
+      <div class="user-text" data-slot="minutes"><!-- USER TEXT: chapter 4, the warning timeline and what it means for evacuation --></div>
+      <ol class="timeline" aria-label="Timeline on 26 August 2026, Nepal time, as reported by ICIMOD">
+        <li><time>8:37</time><span>Seismic signal of the collapse</span></li>
+        <li><time>8:40</time><span>Reported arrival of the flood at Rasuwagadhi</span></li>
+        <li><time>9:05</time><span>Hydrologists learn of the flood</span></li>
+        <li><time>9:15–9:16</time><span>SMS alerts sent “to around 679,000 people in Rasuwa, Nuwakot, Dhading and Chitwan”</span></li>
+        <li><time>9:20</time><span>Reported arrival at Betrawati</span></li>
+        <li><time>after 11:00</time><span>Flood reaches Malekhu</span></li>
+      </ol>
+      <p class="data-note">Times are Nepal time on 26 August 2026 as given by ICIMOD, which notes that some scientists doubt the reported arrival times. An analysis it cites places the first failure on the afternoon of 25 August.</p>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li><a href="https://www.icimod.org/kyirong-rasuwa-flood-2026-nepal-china-border/">ICIMOD, Kyirong–Rasuwa flood 2026</a>, section “Warnings and preparedness” (read 14 Nov 2026).</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="syabrubesi">
+    <div class="card">
+      <p class="km" data-km-label="syabrubesi"></p>
+      <h2>Syabrubesi</h2>
+      <div class="user-text" data-slot="syabrubesi"><!-- USER TEXT: chapter 5, Timure to Syabrubesi --></div>
+      <div class="measure" data-measure="syabrubesi"></div>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li>Radar: NISAR L2 GCOV, track 98 ascending, 19 and 31 Aug 2026.</li>
+        <li><a href="https://kathmandupost.com/national/2026/08/26/major-flood-damages-syabrubesi-hydropower-projects-in-rasuwa">Kathmandu Post, 26 Aug 2026</a>.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="betrawati">
+    <div class="card">
+      <p class="km" data-km-label="betrawati"></p>
+      <h2>Betrawati</h2>
+      <div class="user-text" data-slot="betrawati"><!-- USER TEXT: chapter 6, the Trishuli down to Betrawati and beyond --></div>
+      <div class="measure" data-measure="betrawati"></div>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li>Radar: NISAR L2 GCOV, track 98 ascending, 19 and 31 Aug 2026.</li>
+        <li><a href="https://www.icimod.org/kyirong-rasuwa-flood-2026-nepal-china-border/">ICIMOD</a>.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="season">
+    <div class="card">
+      <h2>The whole season, 12 days at a time</h2>
+      <p class="plain">NISAR flew the same track over this valley ten times between 20 June and 18 October. The Season tab shows what changed between each pass and the next. Seven of the eight periods look much the same, a thin scatter of dots. One does not.</p>
+      <button type="button" class="goto" data-do="season-play">Play the season on the map</button>
+      <div id="season-fig" class="figure" role="img" aria-label="Bar chart of the share of riverside ground that changed in each 12-day period"></div>
+      <p class="data-note" id="season-note"></p>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="glaciers">
+    <div class="card">
+      <h2>The ice above the valley</h2>
+      <p class="plain">Liquid water in snow soaks up radar. When the surface of a glacier starts to melt, its echo drops. The Glaciers tab shows, for each date, where the echo was lower (blue) or higher (red) than on 20 June.</p>
+      <div id="glacier-fig" class="figure" role="img" aria-label="Line chart of median radar echo on glacier ice by elevation band for ten dates"></div>
+      <p class="plain" id="glacier-say"></p>
+      <p class="plain" id="lake-say"></p>
+      <button type="button" class="goto" data-do="mode:glacier">Show the glaciers on the map</button>
+      <p class="data-note">We have not checked this against weather or ground measurements. Fresh snow, bare ice and rock debris change the echo too, and NISAR's long radar wavelength reacts less to wet snow than shorter ones do. Read blue as “look here”, not as measured melt. Five months of data cannot show whether a glacier is shrinking.</p>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li>Radar: NISAR L2 GCOV, track 98 ascending, ten dates from 20 Jun to 18 Oct 2026, averaged to about 50 m.</li>
+        <li>Glacial lakes: High Mountain Asia Near-Global Multi-Decadal Glacial Lake Inventory, version 1 (NASA NSIDC DAAC), period 2015 to 2018.</li>
+        <li>Elevation bands: NASADEM, version 1 (NASA LP DAAC).</li>
+        <li>Glacier outlines: OpenStreetMap contributors.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="water">
+    <div class="card">
+      <h2>Where water would go</h2>
+      <p class="plain">Open the Water paths tab and click anywhere. The map draws the way downhill from that spot, one 30 m step at a time, using NASA's elevation model of the valley. Try a glacial lake or a side valley and see which villages lie below it.</p>
+      <p class="plain">The shaded strips are low ground: less than 10 m above the nearest river channel (purple) and 10 to 20 m above it (orange).</p>
+      <button type="button" class="goto" data-do="mode:water">Open Water paths</button>
+      <p class="data-note">This is the shape of the land, not a flood forecast. It does not know how much water there is, how deep it gets or how fast it moves. The elevation data dates from the year 2000 and one cell is 30 m wide, which is too coarse for narrow gorges. It is not an official hazard map. For those, use the agencies listed at the end.</p>
+      <details class="sources"><summary>Sources</summary><ul>
+        <li>Elevation: NASADEM Merged DEM Global 1 arc second, version 1 (NASA LP DAAC), tiles n27e085 and n28e085.</li>
+        <li>Method: flow direction (D8) and height above the nearest drainage, computed with the open-source pysheds library. Details on the <a href="/research.html">data and methods page</a>.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="research">
+    <div class="card">
+      <h2>For students and researchers</h2>
+      <p class="plain">Everything on this site is a measurement you can take away and check.</p>
+      <ol class="howto">
+        <li><b>Pick a place.</b> Click it on the map. The card shows its radar brightness on all ten dates.</li>
+        <li><b>Take the numbers.</b> Press “Download CSV” on the card and plot them in a spreadsheet.</li>
+        <li><b>Get the full tables.</b> The <a href="/research.html#downloads">downloads list</a> has the river statistics for every 500 m and every period, the ten radar images, the glacier table and the lake outlines.</li>
+        <li><b>Check the method.</b> The <a href="/research.html">data and methods page</a> explains each step and how to run the scripts yourself.</li>
+      </ol>
+      <h3>Questions this data can answer</h3>
+      <ul class="plain">
+        <li>Which stretch of the river changed most, and had it changed back by October?</li>
+        <li>Do the side rivers show anything in the flood period?</li>
+        <li>At what height does the glacier echo drop first, and when does it recover?</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="chapter is-wide" data-chapter="method">
+    <div class="card">
+      <h2>How we know</h2>
+      <div class="user-text" data-slot="method"><!-- USER TEXT: your own explanation of the method and why it matters (optional) --></div>
+
+      <h3>The measurement</h3>
+      <p class="plain">NISAR is a radar satellite built by NASA and ISRO. It sends its own microwave pulses, so it sees through cloud and at night, and it passes over this valley on the same track every 12 days. For each pass we take the radar brightness of the ground (backscatter, HH and HV polarisation), average it over 5 × 5 pixels of 10 m to calm the speckle, and divide the later pass by the earlier one. The result, in decibels, is what the map shows. Water, fresh debris, lost vegetation and moved boulders all change how the ground reflects radar.</p>
+
+      <h3>Is it more than ordinary change?</h3>
+      <p class="plain">Rivers in the monsoon change all the time. So we ran the same calculation for every other 12-day step on the same track from June to October 2026, and for neighbouring rivers that the published accounts do not place in the flood’s path. Each dot is one 12-day step. The red dot is the step that contains 26 August.</p>
+      <div id="dotplot" class="figure" role="img" aria-label="Dot plot comparing the share of strongly changed pixels along the flood path and four control rivers for each 12-day step"></div>
+      <p class="data-note" id="dotplot-note"></p>
+
+      <h3>Three independent looks</h3>
+      <p class="plain">Three NISAR tracks crossed the valley within nine days of the flood, each from a different direction. Switch between them under “More layers” on the map. A change that appears from all three directions is unlikely to be an artefact of one viewing angle.</p>
+      <table class="tracks">
+        <thead><tr><th>Track</th><th>Before</th><th>After</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>98 ascending</td><td>19 Aug</td><td>31 Aug</td><td>Same radar mode on both dates. Used for all numbers here.</td></tr>
+          <tr><td>48 descending</td><td>16 Aug</td><td>28 Aug</td><td>Mode differs between dates (10 m and 20 m pixels).</td></tr>
+          <tr><td>149 descending</td><td>23 Aug</td><td>4 Sep</td><td>Mode differs between dates; the whole scene is about 0.6 dB brighter after.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Limits</h3>
+      <ul class="plain">
+        <li>A change in radar brightness is not a damage map. It shows where the surface changed, not what was lost.</li>
+        <li>The two passes are 12 days apart. Anything that happened in between is included, not only the flood.</li>
+        <li>The valleys are steep. On slopes facing the radar or hidden from it the signal is distorted; the product’s mask does not mark these places.</li>
+        <li>River lines come from OpenStreetMap and can sit tens of metres from the real channel.</li>
+        <li>The radar products are NISAR “provisional” releases: calibrated, not yet fully validated.</li>
+        <li>NISAR is not a warning system. It revisits every 12 days per track; this is a look back at what changed and where.</li>
+      </ul>
+      <details class="sources"><summary>Data and code</summary><ul>
+        <li>NISAR L2 GCOV, provisional release (CRID P05023), NASA/JPL and ISRO, distributed by the Alaska Satellite Facility DAAC; subsets requested through NASA Harmony on 14 Nov 2026.</li>
+        <li>Rivers, places and peaks: © OpenStreetMap contributors (ODbL), retrieved 14 Nov 2026.</li>
+        <li>Processing scripts and provenance: <a href="/credits.html">credits and methods page</a>.</li>
+      </ul></details>
+    </div>
+  </section>
+
+  <section class="chapter" data-chapter="prepare" id="prepare">
+    <div class="card">
+      <h2>Warnings and preparedness</h2>
+      <div class="user-text" data-slot="prepare"><!-- USER TEXT: closing chapter, prevention and evacuation, in your own words --></div>
+      <p class="plain">Official flood information for Nepal comes from these agencies:</p>
+      <ul class="links">
+        <li><a href="https://www.dhm.gov.np/">Department of Hydrology and Meteorology (DHM)</a><span>weather and flood bulletins</span></li>
+        <li><a href="https://hydrology.gov.np/">DHM hydrology portal</a><span>river levels and flood forecasting</span></li>
+        <li><a href="https://bipadportal.gov.np/">BIPAD portal</a><span>national disaster information system</span></li>
+        <li><a href="https://ndrrma.gov.np/">National Disaster Risk Reduction and Management Authority (NDRRMA)</a></li>
+      </ul>
+      <p class="data-note">This site does not show evacuation routes or safe zones. Follow local authorities.</p>
+    </div>
+  </section>
+
+  <footer class="chapter is-wide" data-chapter="credits">
+    <div class="card foot">
+      <p>Radar data: NISAR, a joint mission of NASA and ISRO, distributed by the Alaska Satellite Facility DAAC through NASA Harmony. Basemap: OpenFreeMap, © OpenMapTiles, data © OpenStreetMap contributors. Terrain: Mapzen Terrain Tiles on AWS Open Data.</p>
+      <p>Built for the NASA Space Apps Challenge 2026, challenge “Dancing with the SARs”. This is a prototype by a hackathon team. It is not a NASA product and is not endorsed by NASA or any agency named here.</p>
+      <p>SI use: the site code and data-processing scripts were written with SI assistance (Claude, Anthropic). No SI-generated images, video or audio are used. <a href="/si-usage.html">Full SI disclosure</a>. <a href="/credits.html">All data, code and references</a>. <a href="/research.html">Data and methods</a>.</p>
+    </div>
+  </footer>
+</main>
+
+<script src="/vendor/maplibre-gl.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

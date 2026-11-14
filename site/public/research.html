@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data and methods: Rasuwa flood traced with NISAR</title>
+<!-- SI disclosure: this page and the scripts it describes were written with SI assistance (Claude, Anthropic). -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/page.css">
+</head>
+<body class="page">
+<p><a href="/">Back to the map</a></p>
+<h1>How the data was found, extracted and used</h1>
+<p>Written 2026-11-14 with SI assistance (Claude, Anthropic). Every step below is a script in <code>pipeline/</code> that you can re-run. Full provenance table: <code>research/data-sources.md</code>.</p>
+<h2 id="downloads">Downloads</h2>
+<p>Click a spot on the map and press “Download CSV” for one place. For everything else:</p>
+<table><thead><tr><th>File</th><th>What is in it</th></tr></thead><tbody>
+<tr><td><a href="/data/river_stats.json" download>River statistics</a></td><td>Every 500 m of the flood path and four control rivers, for all eight 12-day periods: mean change and share of pixels changed by more than 3 dB.</td></tr>
+<tr><td><a href="/data/flowpath.geojson" download>River paths</a></td><td>The traced flood path, the control rivers and the kilometre marks.</td></tr>
+<tr><td><a href="/data/series/series.json" download>Radar series, description</a></td><td>Grid, dates and how to turn pixel values into decibels for the ten images hh-YYYYMMDD.png in the same folder (for example /data/series/hh-20260819.png).</td></tr>
+<tr><td><a href="/data/glacier/glacier_season.json" download>Glacier table</a></td><td>Median echo per height band and date, and the share of ice more than 3 dB below its 20 June value.</td></tr>
+<tr><td><a href="/data/glacial_lakes.geojson" download>Glacial lakes</a></td><td>The 12 lakes of NASA's HMA_GLI inventory (2015 to 2018) inside the study box.</td></tr>
+<tr><td><a href="/data/terrain.json" download>Terrain layers, description</a></td><td>How flowdir.png (flow directions) and lowground.png (low ground) are laid out.</td></tr>
+<tr><td><a href="/data/layers.json" download>Map layers</a></td><td>Every change and radar tile layer with its source files and colour scale.</td></tr>
+</tbody></table>
+<h2>The short version (say this to a judge)</h2>
+<ol>
+<li>I took NISAR radar images of the Rasuwa valley from NASA, for 10 dates between June and October 2026.</li>
+<li>For every pair of dates 12 days apart, I divided the later image by the earlier one. Where the answer is far from 1, the ground changed.</li>
+<li>I counted how much ground near the river changed in the 12 days that contain the flood (19 to 31 August), and compared it with the seven other 12-day periods and with four nearby rivers the flood did not go down.</li>
+<li>Result: 20.7% of the riverside ground changed in the flood period. In ordinary periods it was 0.8% to 3.8%. The four other rivers stayed in their ordinary range.</li>
+</ol>
+<h2>1. Which NASA data</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mission</td>
+<td>NISAR, the NASA and ISRO L-band radar satellite</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Level 2 GCOV (geocoded polarimetric covariance), which is radar backscatter already placed on a map grid</td>
+</tr>
+<tr>
+<td>NASA collection</td>
+<td><code>NISAR_L2_GCOV_PROVISIONAL_V1</code>, CMR id <code>C2854338529-ASF</code>, processing version P05023</td>
+</tr>
+<tr>
+<td>Archive</td>
+<td>Alaska Satellite Facility DAAC (a NASA data centre)</td>
+</tr>
+<tr>
+<td>Layers used</td>
+<td>HHHH and HVHV backscatter (gamma-0 power) and the validity mask, frequency A</td>
+</tr>
+<tr>
+<td>Maturity</td>
+<td>"Provisional": calibrated, not yet fully validated. We say this on the site.</td>
+</tr>
+</tbody>
+</table>
+<p>Scenes used:</p>
+<table>
+<thead>
+<tr>
+<th>Track</th>
+<th>Dates (2026)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>98 ascending, frame 16</td>
+<td>20 Jun, 2 Jul, 14 Jul, 26 Jul, 19 Aug, 31 Aug, 12 Sep, 24 Sep, 6 Oct, 18 Oct</td>
+<td>Main series. Same radar mode on every date, so the dates are comparable. All numbers come from this track.</td>
+</tr>
+<tr>
+<td>48 descending, frames 74 and 75</td>
+<td>16 Aug, 28 Aug</td>
+<td>Second look at the flood from another direction</td>
+</tr>
+<tr>
+<td>149 descending, frame 74</td>
+<td>23 Aug, 4 Sep</td>
+<td>Third look</td>
+</tr>
+</tbody>
+</table>
+<p>There is a gap in the series between 26 July and 19 August, so that step is not used.</p>
+<h2>2. How it was found and downloaded</h2>
+<ul>
+<li><strong>Finding the scenes.</strong> A search of NASA's Common Metadata Repository (CMR) for the collection above, inside the box 85.10 to 85.50°E, 27.85 to 28.40°N. The scene ids are listed in <code>pipeline/fetch_gcov_subsets.py</code>.</li>
+<li><strong>Downloading only what is needed.</strong> One full NISAR file is about 7 GB. Instead of downloading whole files, the script asks NASA Harmony (NASA's subsetting service) to cut out two boxes and return small GeoTIFFs:</li>
+<li>river corridor: 85.10 to 85.50°E, 27.85 to 28.40°N</li>
+<li>source zone: 85.33 to 85.65°E, 28.20 to 28.42°N</li>
+<li><strong>Output.</strong> GeoTIFFs in UTM zone 45N (EPSG:32645) in <code>data/raw/gcov/</code> and <code>data/raw/gcov_source/</code>. Each Harmony job id is logged in <code>manifest.json</code> in those folders.</li>
+<li><strong>Login.</strong> A free NASA Earthdata account token, kept in <code>.env</code> and never committed.</li>
+</ul>
+<p>Script: <code>pipeline/fetch_gcov_subsets.py</code></p>
+<h2>3. Change detection</h2>
+<p>For each pair of consecutive dates on the same track:</p>
+<ol>
+<li>Read the "before" and "after" backscatter and the mask.</li>
+<li>Put the after image on the before image's pixel grid.</li>
+<li>Average over 5 × 5 pixels. Radar images are grainy (speckle); this calms the grain.</li>
+<li>Change in decibels = 10 × log10(after ÷ before), only where both dates are valid.</li>
+<li>Save the result as a GeoTIFF in <code>data/work/change/</code>.</li>
+</ol>
+<p>0 dB means no change. +3 dB means the echo doubled, −3 dB means it halved.</p>
+<p>Script: <code>pipeline/change_detection.py</code></p>
+<h2>4. Is the flood change more than normal?</h2>
+<ol>
+<li>Trace the river downstream using OpenStreetMap river lines, from the head of the change signal north of Langtang Lirung to Betrawati: 66.3 km.</li>
+<li>Take every pixel within 100 m of that line and group the pixels into 500 m steps along the river.</li>
+<li>For each step and each 12-day period, compute the share of pixels that changed by more than 3 dB.</li>
+<li>Do the same for four control rivers that join the same system but are not in the flood's reported path: upper Lende Khola, Kyirong Tsangpo, Langtang Khola, Chilime Khola.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Share of riverside pixels changed by more than 3 dB (HH)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flood path, 19 to 31 Aug</td>
+<td><strong>20.69%</strong> of 129,965 pixels</td>
+</tr>
+<tr>
+<td>Flood path, seven ordinary periods</td>
+<td>0.76% to 3.83%</td>
+</tr>
+<tr>
+<td>Control rivers, 19 to 31 Aug</td>
+<td>0.19%, 3.84%, 0.25%, 0.73% (each inside its own ordinary range)</td>
+</tr>
+</tbody>
+</table>
+<p>Script: <code>pipeline/river_stats.py</code>. Output: <code>site/public/data/river_stats.json</code>.</p>
+<h2>5. From rasters to the website</h2>
+<ul>
+<li><code>pipeline/make_tiles.py</code> reprojects the change rasters to web map tiles and colours them: red where the echo rose, blue where it fell, transparent below 1.5 dB.</li>
+<li>The site is static files on Cloudflare. The browser only draws; it does not compute or estimate any number.</li>
+</ul>
+<h2>5a. The record for any spot you click</h2>
+<ul>
+<li><code>pipeline/make_series.py</code> puts the HH backscatter of all ten track 98 dates on one grid of about 50 m and saves one small greyscale image per date. Averaging 10 m pixels to 50 m also reduces the radar grain.</li>
+<li>When you click the map, the browser reads the pixel under the click from each of the ten images and plots the ten values. The CSV button saves exactly those values.</li>
+<li>Pixel value to decibels: dB = −35 + (pixel − 1) × 0.15. Pixel 0 means no valid data.</li>
+</ul>
+<h2>5b. The season view</h2>
+<p>The same change calculation as in section 3, for all eight 12-day pairs on track 98. The Season tab shows them in date order. Share of riverside ground changed by more than 3 dB, per period: 1.42%, 1.25%, 1.01% (June and July), <strong>20.69%</strong> (19 to 31 August), 3.67%, 1.07%, 3.83%, 0.76% (September and October). There is no pair between 26 July and 19 August in the data we used.</p>
+<h2>5c. Glaciers</h2>
+<ul>
+<li><code>pipeline/glacier_season.py</code> takes the 50 m series, keeps only pixels inside glacier outlines, and for each date subtracts the 20 June value. Blue = echo fell, red = echo rose.</li>
+<li>It also groups glacier pixels by height (NASADEM) and reports the median echo per date.</li>
+<li>Measured: above 6,000 m, the share of glacier pixels more than 3 dB below their 20 June value rose to 32.9% on 31 August and was back to 7.2% on 18 October.</li>
+<li><strong>Interpretation, not verified:</strong> liquid water in snow absorbs radar, so a falling echo over snow is a commonly used sign of surface melt. We did not check it against weather or ground data. NISAR is L-band, which reacts less to wet snow than C-band. New snow, bare ice and debris also change the echo. Five months cannot show long-term glacier loss.</li>
+<li>Glacial lakes: NASA's "High Mountain Asia Near-Global Multi-Decadal Glacial Lake Inventory" version 1 (<code>HMA_GLI</code>, NSIDC DAAC), period 2015 to 2018. 12 lakes fall inside the study box.</li>
+<li>Glacier outlines are from OpenStreetMap. The NASA-hosted Randolph Glacier Inventory 7.0 needs an interactive Earthdata login that the script could not complete.</li>
+</ul>
+<h2>5d. Water paths and low ground</h2>
+<ul>
+<li>Elevation: NASADEM version 1 (NASA LP DAAC), tiles n27e085 and n28e085, 1 arc-second (about 30 m), measured in February 2000.</li>
+<li><code>pipeline/terrain_context.py</code> fills pits and depressions, then gives every cell a pointer to its steepest downhill neighbour (D8 flow direction, pysheds library).</li>
+<li>"Drop water": the browser follows those pointers from the clicked cell until it reaches the edge of the data. It is a route, not a simulation. No water volume, depth, speed or time.</li>
+<li>"Low ground": height above the nearest river channel (HAND). Rivers are cells with at least 25 km² of land draining into them. Cells under 10 m and 10 to 20 m above their river cell are shaded. In this box that is 1.3% and 2.1% of the area.</li>
+<li>Limits: NASADEM has metre-scale height errors that grow on steep slopes, and 30 m cells cannot resolve narrow gorges. This is terrain screening, not a hazard map.</li>
+</ul>
+<h2>6. What is NASA data and what is not</h2>
+<table>
+<thead>
+<tr>
+<th>Used for</th>
+<th>Source</th>
+<th>NASA?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All measurements, maps of change, all numbers</td>
+<td>NISAR L2 GCOV via ASF DAAC and Harmony</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Downhill routes, low ground, glacier height bands</td>
+<td>NASADEM v1 via LP DAAC</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Glacial lakes</td>
+<td>HMA_GLI v1 via NSIDC DAAC</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>River lines, place names, peak position, glacier outlines</td>
+<td>OpenStreetMap</td>
+<td>No (open data, credited)</td>
+</tr>
+<tr>
+<td>Background map</td>
+<td>OpenFreeMap</td>
+<td>No (open data, credited)</td>
+</tr>
+<tr>
+<td>3D terrain and hillshade</td>
+<td>Mapzen Terrain Tiles on AWS</td>
+<td>No. Could be replaced with NASADEM (NASA).</td>
+</tr>
+<tr>
+<td>Flood timeline</td>
+<td>ICIMOD web page</td>
+<td>No (quoted and cited)</td>
+</tr>
+</tbody>
+</table>
+<p>The Space Apps rules require at least one NASA data source and a full list of everything else. Non-NASA data is allowed if it is listed.</p>
+<h2>7. What this cannot tell you</h2>
+<ul>
+<li>Radar change is not a damage map. It shows where the surface changed, not what was lost.</li>
+<li>Each period is 12 days. Anything else that happened in those days is included.</li>
+<li>Steep slopes distort radar. The product's mask does not flag those places.</li>
+<li>River lines can sit tens of metres off the real channel.</li>
+<li>NISAR revisits every 12 days per track. It is not a warning system.</li>
+</ul>
+<h2>8. Re-run it</h2>
+<pre><code>python -m venv .venv &amp;&amp; .venv\Scripts\activate
+pip install -r pipeline/requirements.txt
+python pipeline/fetch_gcov_subsets.py            # needs EARTHDATA_TOKEN in .env
+python pipeline/fetch_gcov_subsets.py --aoi source
+python pipeline/change_detection.py
+python pipeline/change_detection.py --raw data/raw/gcov_source
+node pipeline/fetch_osm.mjs
+python pipeline/river_stats.py
+python pipeline/make_tiles.py
+python pipeline/make_series.py
+python pipeline/fetch_nasa_context.py            # NASADEM and the glacial lake inventory
+python pipeline/terrain_context.py
+python pipeline/glacier_season.py
+python pipeline/build_research_page.py           # turns this file into site/public/research.html
+</code></pre>
+</body>
+</html>

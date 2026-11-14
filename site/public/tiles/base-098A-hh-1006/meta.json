@@ -1,0 +1,27 @@
+{
+  "layer": "base-098A-hh-1006",
+  "kind": "change",
+  "minzoom": 8,
+  "maxzoom": 13,
+  "bounds": [
+    85.09027937420538,
+    27.845075662248995,
+    85.65271281126304,
+    28.423511544569365
+  ],
+  "scale": {
+    "unit": "dB",
+    "transparent_below_abs": 1.5,
+    "opaque_from_abs": 4.0,
+    "colour_saturates_abs": 6.0,
+    "negative": "blue: backscatter fell",
+    "positive": "red: backscatter rose"
+  },
+  "sources": [
+    "data/work/change/gcov/098A_016_2026-10-06_2026-10-18_HHHH_logratio_dB.tif",
+    "data/work/change/gcov_source/098A_016_2026-10-06_2026-10-18_HHHH_logratio_dB.tif"
+  ],
+  "tiles": 246,
+  "generated_utc": "2026-11-14T05:40:43.819990+00:00",
+  "note": "Derived from NISAR L2 GCOV (PROVISIONAL, CRID P05023). Processed offline; see pipeline/."
+}

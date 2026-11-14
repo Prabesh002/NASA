@@ -1,0 +1,23 @@
+# secrets
+.env
+.dev.vars
+# data (large, re-fetchable via pipeline/)
+data/raw/
+data/work/
+# python
+__pycache__/
+.venv/
+*.pyc
+# node / wrangler
+node_modules/
+.wrangler/
+dist/
+# internal session notes (contain account details)
+HANDOFF.md
+# working notes and third-party text not for the public repo
+CLAUDE.md
+BRIEF.md
+docs/START-HERE.md
+data/logs/
+research/challenges/
+research/snapshots/
