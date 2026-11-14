@@ -5,7 +5,24 @@ NASA Space Apps Challenge 2026, challenge "Dancing with the SARs". Local event: 
 An interactive story map that follows the Rasuwa flood from its source north of Langtang Lirung down the
 Lende Khola, Bhote Koshi and Trishuli to Betrawati, using change detection on NASA-ISRO NISAR radar data.
 
-Live site: https://nasa.nesomotions.com (after deployment)
+Main result: across the flood (19 to 31 August), 20.7% of the radar pixels within 100 m of the river
+changed by more than 3 dB. In seven other 12-day periods from June to October the figure was 0.8% to 3.8%,
+and four neighbouring rivers showed no jump on the same dates.
+
+Live site: https://nasa.nesomotions.com (after deployment). Slides: `/deck/` (full talk) and
+`/deck/seven.html` (seven slides, for the submission).
+
+## What you can do on the site
+
+| Tab | What it shows |
+|---|---|
+| Flood | Where the ground changed across the flood. A slider compares it with a normal 12 days, and the flood can be played down the valley with the reported times. |
+| Over time | All eight 12-day periods from June to October in date order, so the flood period can be compared with the others. |
+| Glaciers | Radar echo of glacier ice on each date compared with 20 June, with glacial lakes from a NASA inventory. A weaker echo may be a sign of melt; we did not verify it. |
+| Water paths | Click a point and a line follows the slope downhill (NASADEM). Also shades low ground beside rivers. It does not forecast floods. |
+
+Clicking the map in the Flood or Over time tab opens the radar record of that spot on ten dates, with a CSV download.
+The story column has Back and Next buttons (and arrow keys) for presenting.
 
 This is a hackathon prototype. It is not an official assessment, forecast or warning.
 
@@ -38,12 +55,21 @@ python pipeline/change_detection.py                 # 12-day log-ratio change, c
 python pipeline/change_detection.py --raw data/raw/gcov_source
 python pipeline/river_stats.py                      # change along river paths, baseline and controls
 python pipeline/make_tiles.py                       # web map tiles and layer index
+
+python pipeline/make_series.py                      # ten-date radar record used by the click card
+python pipeline/fetch_nasa_context.py               # NASADEM elevation and the HMA glacial lake inventory
+python pipeline/terrain_context.py                  # flow directions and low ground beside rivers
+python pipeline/glacier_season.py                   # glacier echo on each date against 20 June
+python pipeline/build_research_page.py              # site/public/research.html from docs/DATA-METHODS.md
 ```
+
+How each step works is written up in `docs/DATA-METHODS.md` (also on the site as "Data and methods").
 
 ## Run and deploy the site
 
 ```
-npx wrangler dev        # local preview at http://localhost:8787
+python -m http.server 8788 --directory site/public   # local preview at http://localhost:8788
+npx wrangler dev        # or the Cloudflare preview at http://localhost:8787
 npx wrangler deploy     # Cloudflare Workers static assets, custom domain nasa.nesomotions.com
 ```
 
@@ -63,14 +89,17 @@ Limits are listed on the site ("How we know") and in `site/public/credits.html`.
 
 - NISAR L2 GCOV, provisional release (CRID P05023): NASA/JPL and ISRO, distributed by the Alaska Satellite
   Facility DAAC, accessed through NASA Harmony.
+- NASADEM_HGT version 1 (NASA LP DAAC) for elevation. High Mountain Asia glacial lake inventory version 1
+  (NASA NSIDC DAAC) for the lakes.
 - OpenStreetMap contributors (ODbL 1.0). OpenFreeMap / OpenMapTiles basemap. Mapzen Terrain Tiles (AWS Open Data).
 - MapLibre GL JS 4.7.1 (BSD-3-Clause). Fonts: Archivo, Source Serif 4 (SIL OFL).
 - Event references: ICIMOD, The Kathmandu Post. Full list with dates: `research/data-sources.md`.
 
 ## SI disclosure
 
-The idea, study area, audience and story text are the team's own. The code in `pipeline/` and `site/` was
-written with SI assistance (Claude, Anthropic); each file says so in its header. No SI-generated images,
+The idea, study area and audience are the team's own. The code in `pipeline/` and `site/`, the slides and
+the wording of the site text were written with SI assistance (Claude, Anthropic), from sources the team chose
+and checked. No SI-generated images,
 video or audio are used. Full log: `docs/SI-USAGE.md`.
 
 No NASA logos or insignia are used. NASA does not endorse this project.

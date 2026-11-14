@@ -81,9 +81,9 @@ Script: `pipeline/river_stats.py`. Output: `site/public/data/river_stats.json`.
 - When you click the map, the browser reads the pixel under the click from each of the ten images and plots the ten values. The CSV button saves exactly those values.
 - Pixel value to decibels: dB = −35 + (pixel − 1) × 0.15. Pixel 0 means no valid data.
 
-## 5b. The season view
+## 5b. The Over time view
 
-The same change calculation as in section 3, for all eight 12-day pairs on track 98. The Season tab shows them in date order. Share of riverside ground changed by more than 3 dB, per period: 1.42%, 1.25%, 1.01% (June and July), **20.69%** (19 to 31 August), 3.67%, 1.07%, 3.83%, 0.76% (September and October). There is no pair between 26 July and 19 August in the data we used.
+The same change calculation as in section 3, for all eight 12-day pairs on track 98. The Over time tab shows them in date order. Share of riverside ground changed by more than 3 dB, per period: 1.42%, 1.25%, 1.01% (June and July), **20.69%** (19 to 31 August), 3.67%, 1.07%, 3.83%, 0.76% (September and October). There is no pair between 26 July and 19 August in the data we used.
 
 ## 5c. Glaciers
 

@@ -581,7 +581,7 @@
 
   /* ---------- stepper: previous / next through the story, also with the arrow keys ---------- */
   const STEP_NAMES = { intro: "Start", source: "The source", lende: "Lende Khola", rasuwagadhi: "Rasuwagadhi", minutes: "The warning", syabrubesi: "Syabrubesi",
-    betrawati: "Betrawati", season: "Was it normal?", glaciers: "The ice", water: "Where water goes", research: "Use the data", method: "How we know", prepare: "Official warnings", credits: "Credits" };
+    betrawati: "Betrawati", season: "Over time", glaciers: "The ice", water: "Where water goes", research: "Use the data", method: "How we know", prepare: "Official warnings", credits: "Credits" };
   const stepList = () => $$(".chapter").map((el) => el.dataset.chapter);
   function goStep(delta) {
     const list = stepList(), i = Math.max(0, list.indexOf(currentChapter)), j = Math.max(0, Math.min(list.length - 1, i + delta));
