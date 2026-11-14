@@ -2,7 +2,7 @@
 
 Written 2026-11-14 with SI assistance (Claude, Anthropic). Every step below is a script in `pipeline/` that you can re-run. Full provenance table: `research/data-sources.md`.
 
-## The short version (say this to a judge)
+## The short version
 
 1. I took NISAR radar images of the Rasuwa valley from NASA, for 10 dates between June and October 2026.
 2. For every pair of dates 12 days apart, I divided the later image by the earlier one. Where the answer is far from 1, the ground changed.
