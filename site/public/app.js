@@ -186,6 +186,7 @@
   const DEM = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
   const tileUrl = (name) => `${location.origin}/tiles/${name}/{z}/{x}/{y}.webp`;
   let style, fpData, view = "flood";
+  const TERRAIN = { source: "dem", exaggeration: 1 };
 
   function makeMap(container, interactive) {
     return new maplibregl.Map({ container, style, center: CHAPTERS.intro.center, zoom: CHAPTERS.intro.zoom - (isNarrow() ? 1.3 : 0.4),
@@ -199,7 +200,7 @@
     m.addSource("dem-shade", { type: "raster-dem", tiles: [DEM], tileSize: 256, maxzoom: 14, encoding: "terrarium" });
     m.addLayer({ id: "hillshade", type: "hillshade", source: "dem-shade",
       paint: { "hillshade-exaggeration": 0.28, "hillshade-shadow-color": "#5d6e79", "hillshade-highlight-color": "#ffffff", "hillshade-accent-color": "#93a3ad" } }, firstSymbol);
-    m.setTerrain({ source: "dem", exaggeration: 1 });   // true vertical scale, no exaggeration
+    if (m === map) m.setTerrain(TERRAIN);   // true vertical scale, no exaggeration. The comparison map stays flat (see setView).
     const add = (meta) => {
       m.addSource(meta.layer, { type: "raster", tiles: [tileUrl(meta.layer)], tileSize: 256, minzoom: meta.minzoom, maxzoom: meta.maxzoom, bounds: meta.bounds,
         attribution: "Radar: NISAR (NASA/JPL, ISRO) via ASF DAAC" });
@@ -251,6 +252,9 @@
     $("#cmp-btn").setAttribute("aria-pressed", cmp);
     if (cmp) closeCard();
     document.body.classList.toggle("comparing", cmp);
+    // 3D terrain shifts each map's zoom by the ground height under its centre, so the two sides can drift apart.
+    // Both sides are drawn flat while comparing, which keeps them at exactly the same scale.
+    if (map.getSource("dem")) map.setTerrain(cmp ? null : TERRAIN);
     $("#swipe").hidden = !cmp;
     if (cmp && !map2) {
       map2 = makeMap("map2", false);
@@ -259,7 +263,7 @@
     if (cmp) { map2.resize(); syncMap2(); setSwipe($("#swipe-range").value); }
     applyLayers();
   }
-  const syncMap2 = () => { if (map2 && view === "compare") map2.jumpTo({ center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() }); };
+  const syncMap2 = () => { if (map2 && view === "compare") map2.jumpTo({ center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch(), padding: map.getPadding() }); };
   function setSwipe(pct) {
     $("#swipe").style.setProperty("--x", pct + "%");
     $("#map2").style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
