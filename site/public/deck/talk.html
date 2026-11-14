@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Rasuwa flood, traced from space: talk</title>
+<meta name="description" content="Longer talk version of the slides on tracing the 26 August 2026 Rasuwa flood with NASA-ISRO NISAR radar.">
+<!-- SI disclosure (Space Apps 2026): this deck's code and layout were written with SI assistance (Claude Fable 5.2, Anthropic).
+     The clips are recordings of the project website showing NISAR measurements; they are not SI-generated imagery. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #000; --ink: #f5f5f7; --dim: #a1a1a6; --line: #2c2c2e; --panel: #111113; --red: #ff5d5d; --blue: #5aa9ff; }
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--ink); overflow: hidden; font-family: "Inter", -apple-system, "SF Pro Display", "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: 0 0; }
+.slide { position: absolute; inset: 0; padding: 96px 110px; display: flex; opacity: 0; visibility: hidden; transform: scale(1.015); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1), visibility 0s .7s; }
+.slide.on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.slide > * { min-width: 0; }
+/* one orchestrated entrance per slide */
+.slide [data-in] { opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.slide.on [data-in] { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 140ms + 200ms); }
+h1 { font-size: 84px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; text-wrap: balance; }
+h2 { font-size: 68px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
+p.big { font-size: 34px; line-height: 1.3; color: var(--dim); font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty; }
+p.big b { color: var(--ink); font-weight: 600; }
+.small { font-size: 22px; line-height: 1.4; color: var(--dim); }
+.col { display: flex; flex-direction: column; justify-content: center; gap: 34px; }
+.split { gap: 72px; align-items: center; }
+.split .col { flex: 0 0 600px; }
+.media { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.media img { width: 100%; max-height: 660px; object-fit: cover; border-radius: 28px; display: block; background: #e9edf0; box-shadow: 0 0 0 1px var(--line), 0 40px 120px rgba(90,169,255,.10); }
+.media small { font-size: 16px; color: #6e6e73; text-align: right; }
+.red { color: var(--red); } .blue { color: var(--blue); }
+
+/* 1 */
+#s1 { padding: 0; }
+#s1 img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.2) brightness(.42) contrast(1.1); }
+#s1 .veil { position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.92) 55%, rgba(0,0,0,.25) 100%); }
+#s1 .col { position: relative; padding: 96px 110px; max-width: 1180px; gap: 40px; }
+#s1 .who { font-size: 24px; color: var(--dim); line-height: 1.5; } #s1 .who b { color: var(--ink); font-weight: 600; display: block; font-size: 28px; }
+/* 2 */
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 20px; }
+.fact { border-top: 1px solid var(--line); padding-top: 26px; }
+.fact b { display: block; font-size: 84px; line-height: 1; letter-spacing: -0.04em; font-weight: 700; }
+.fact span { display: block; margin-top: 16px; font-size: 26px; color: var(--dim); line-height: 1.3; }
+/* 4 */
+.versus { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; margin-top: 10px; }
+.versus figure { display: grid; grid-template-columns: 300px 1fr; gap: 44px; align-items: center; }
+.g100 { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+.g100 i { aspect-ratio: 1; border-radius: 5px; background: #1c1c1e; }
+.g100 i.f { background: var(--red); } .g100 i.o { background: #d1d1d6; }
+.slide.on .g100 i.f, .slide.on .g100 i.o { animation: pop .5s cubic-bezier(.2,.9,.3,1.3) both; animation-delay: calc(var(--n) * 28ms + 700ms); }
+@keyframes pop { from { transform: scale(.2); opacity: 0; } }
+.versus b { display: block; font-size: 120px; line-height: .95; letter-spacing: -0.045em; font-weight: 700; }
+.versus span { display: block; margin-top: 14px; font-size: 28px; color: var(--dim); line-height: 1.25; }
+/* 5 */
+.checks { list-style: none; padding: 0; display: grid; gap: 22px; counter-reset: c; }
+.checks li { counter-increment: c; display: grid; grid-template-columns: 54px 1fr; gap: 20px; align-items: center; font-size: 28px; line-height: 1.3; color: var(--ink); }
+.checks li::before { content: counter(c); width: 54px; height: 54px; border-radius: 50%; border: 1.5px solid #48484a; display: grid; place-items: center; color: var(--ink); font-weight: 600; font-size: 24px; }
+.checks b { color: var(--ink); font-weight: 600; display: block; }
+/* 6 */
+.for { display: grid; gap: 18px; }
+.for div { font-size: 27px; line-height: 1.3; color: var(--dim); border-top: 1px solid var(--line); padding-top: 18px; }
+.for b { color: var(--ink); font-weight: 600; }
+/* 7 */
+.three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 28px; padding: 34px 34px 36px; }
+.card h3 { font-size: 20px; font-weight: 600; color: var(--dim); margin-bottom: 14px; }
+.card b { display: block; font-size: 34px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; margin-bottom: 18px; }
+.card ul { list-style: none; padding: 0; display: grid; gap: 9px; font-size: 22px; line-height: 1.32; color: var(--dim); }
+.foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; }
+.foot .url { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; } .foot .url small { display: block; font-size: 20px; color: var(--dim); font-weight: 400; margin-top: 6px; letter-spacing: 0; }
+
+/* talk-only slides */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: s; }
+.steps div { counter-increment: s; background: var(--panel); border: 1px solid var(--line); border-radius: 28px; padding: 30px 30px 34px; }
+.steps div::before { content: counter(s); display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid #48484a; font-weight: 600; font-size: 22px; margin-bottom: 22px; }
+.steps b { display: block; font-size: 30px; line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 14px; }
+.steps span { font-size: 22px; line-height: 1.35; color: var(--dim); }
+.who { display: grid; grid-template-columns: 330px 1fr 1fr; column-gap: 40px; }
+.who > * { padding: 20px 0; border-top: 1px solid var(--line); font-size: 25px; line-height: 1.3; color: var(--dim); }
+.who .hd { border-top: 0; padding: 0 0 12px; font-size: 19px; color: #6e6e73; }
+.who b { color: var(--ink); font-weight: 600; font-size: 28px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+.two .card b { font-size: 38px; }
+.two .card p { font-size: 25px; line-height: 1.35; color: var(--dim); }
+.two .card p + p { margin-top: 14px; font-size: 20px; }
+.limits { list-style: none; padding: 0; display: grid; gap: 0; }
+.limits li { font-size: 32px; line-height: 1.3; padding: 22px 0; border-top: 1px solid var(--line); color: var(--ink); }
+.limits li span { color: var(--dim); }
+
+/* chrome */
+#nav { position: fixed; left: 0; right: 0; bottom: 18px; display: flex; justify-content: center; gap: 10px; z-index: 5; }
+#nav button { width: 34px; height: 6px; border-radius: 3px; border: 0; background: #3a3a3c; cursor: pointer; padding: 0; transition: background .3s, width .3s; }
+#nav button[aria-current="true"] { background: var(--ink); width: 54px; }
+#nav button:focus-visible, #hint:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+#hint { position: fixed; right: 22px; bottom: 12px; font: 500 13px Inter, system-ui, sans-serif; color: #6e6e73; z-index: 5; }
+@media (prefers-reduced-motion: reduce) { .slide, .slide [data-in] { transition: opacity .01s; transform: none; } .slide.on .g100 i { animation: none; } }
+</style>
+</head>
+<body>
+<main id="stage">
+
+  <section class="slide on" id="s1">
+    <img class="bg" src="overview.webp" alt="">
+    <div class="veil"></div>
+    <div class="col">
+      <h1 data-in style="--i:0">In August a piece of a mountain fell into a river in Rasuwa. I used NASA radar to trace where the flood went.</h1>
+      <p class="big" data-in style="--i:2">The flood happened on 26 August 2026. The data comes from NISAR, the radar satellite run by NASA and ISRO.</p>
+      <p class="who" data-in style="--i:3"><b>Prabesh Pathak</b>NASA Space Apps Challenge 2026, Ithari. Challenge: Dancing with the SARs.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s2">
+    <div class="col" style="width:100%">
+      <h2 data-in style="--i:0">I wanted to know where the flood went and how much it changed the valley.</h2>
+      <div class="facts">
+        <div class="fact" data-in style="--i:2"><b>66 km</b><span>of valley between the source and Betrawati</span></div>
+        <div class="fact" data-in style="--i:3"><b>Monsoon</b><span>is when it happened, and cloud often blocks ordinary satellite photos in that season</span></div>
+        <div class="fact" data-in style="--i:4"><b>12 days</b><span>is how often NISAR passes over the same spot, in any weather and at night</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="slide" id="t-how">
+    <div class="col" style="width:100%; gap:48px">
+      <h2 data-in style="--i:0">How it works, in four steps</h2>
+      <div class="steps">
+        <div data-in style="--i:1"><b>Download the radar</b><span>NISAR data is free from NASA. I took 14 passes over Rasuwa, from June to October.</span></div>
+        <div data-in style="--i:2"><b>Compare two passes</b><span>For every 10 m square I divide the later pass by the earlier one. A big ratio means the ground there changed.</span></div>
+        <div data-in style="--i:3"><b>Measure along the river</b><span>I keep the ground within 100 m of the river and count what share of it changed, every 500 m.</span></div>
+        <div data-in style="--i:4"><b>Put it on a map</b><span>The results become map layers and small data files. The website only displays them.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide split" id="s3">
+    <div class="col">
+      <h2 data-in style="--i:0">The same valley before and after the flood</h2>
+      <p class="big" data-in style="--i:1">NISAR comes back over the same path every 12 days. I compared each visit with the one before it.</p>
+      <p class="big" data-in style="--i:2">The left side shows a normal 12 days and the right side shows the 12 days with the flood. <span class="red">Red</span> and <span class="blue">blue</span> mark ground that changed.</p>
+    </div>
+    <div class="media" data-in style="--i:1"><img src="compare.webp" alt="The compare slider moving across the source of the flood: almost no colour on the ordinary side, dense red and blue on the flood side"><small>Recorded from the project site</small></div>
+  </section>
+
+  <section class="slide" id="s4">
+    <div class="col" style="width:100%; gap:56px">
+      <h2 data-in style="--i:0">How much of the riverside changed</h2>
+      <div class="versus">
+        <figure data-in style="--i:1"><div class="g100" data-fill="21" data-cls="f"></div><figcaption><b class="red">1 in 5</b><span>pieces of ground beside the river changed across the flood</span></figcaption></figure>
+        <figure data-in style="--i:2"><div class="g100" data-fill="1" data-cls="o"></div><figcaption><b>1 in 80</b><span>is what a normal 12 days looks like</span></figcaption></figure>
+      </div>
+      <p class="small" data-in style="--i:3">20.7% of 129,965 radar pixels within 100 m of the river changed by more than 3 dB, against a median of 1.25% in seven other periods. Near the source it reaches 88%.</p>
+    </div>
+  </section>
+
+  <section class="slide split" id="s5">
+    <div class="col">
+      <h2 data-in style="--i:0">I checked that this was the flood</h2>
+      <ol class="checks">
+        <li data-in style="--i:1"><span>Of the eight periods I measured from June to October, only the flood period looks like this.</span></li>
+        <li data-in style="--i:2"><span>Four nearby rivers stayed in their normal range on those same days.</span></li>
+        <li data-in style="--i:3"><span>Two other satellite paths, looking from different directions, show the same trail.</span></li>
+      </ol>
+    </div>
+    <div class="media" data-in style="--i:1"><img src="season.webp" alt="The season view stepping through eight 12-day periods; only the period of 19 to 31 August shows a dense trail of change"><small>Recorded from the project site. Each frame is one 12-day period.</small></div>
+  </section>
+
+  <section class="slide split" id="s6">
+    <div class="col">
+      <h2 data-in style="--i:0">Click a spot to see its record</h2>
+      <p class="big" data-in style="--i:1">This spot near the source stayed flat for two months, jumped <b>9.3 dB</b> across the flood, and had not gone back by October.</p>
+      <div class="for">
+        <div data-in style="--i:2"><b>People living by the river</b> can look up their own stretch.</div>
+        <div data-in style="--i:3"><b>The municipality</b> can see which stretches changed most.</div>
+        <div data-in style="--i:4"><b>Students</b> can download the numbers and check my work.</div>
+      </div>
+    </div>
+    <div class="media" data-in style="--i:1"><img src="record.webp" alt="The map at the flood source with a card charting radar brightness on ten dates; the line jumps between 19 and 31 August"><small>Recorded from the project site</small></div>
+  </section>
+
+
+  <section class="slide" id="t-who">
+    <div class="col" style="width:100%; gap:36px">
+      <h2 data-in style="--i:0">Who can use this, and what for</h2>
+      <div class="who" data-in style="--i:1">
+        <span class="hd">Who</span><span class="hd">What they do on the site</span><span class="hd">What they get</span>
+        <b>People living along the river</b><span>Scroll to their stretch, or click their village on the map.</span><span>They see whether the ground near them changed, and how much compared with a normal period.</span>
+        <b>The municipality and disaster offices</b><span>Read the strip under the map, which runs from the source to Betrawati.</span><span>They see which stretches changed most, which helps decide where to send a survey team first.</span>
+        <b>Students and teachers</b><span>Click a spot and press Download CSV.</span><span>A real NASA radar record of ten dates that they can plot in a spreadsheet.</span>
+        <b>Researchers</b><span>Open the data and methods page and the scripts on GitHub.</span><span>They can repeat my measurement or adapt the scripts for another valley.</span>
+      </div>
+      <p class="small" data-in style="--i:2">These are the people I built it for. I have not tested it with them yet.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="t-more">
+    <div class="col" style="width:100%; gap:40px">
+      <h2 data-in style="--i:0">Two more things on the site</h2>
+      <div class="two">
+        <div class="card" data-in style="--i:1"><h3>Glaciers tab</h3><b>The ice above the valley</b><p>Wet snow sends back a weaker radar echo. Above 6,000 m, 33% of the ice had a much weaker echo by 31 August than on 20 June, and by 18 October it was back to 7%.</p><p>This may be a sign of melting. I could not check it on the ground.</p></div>
+        <div class="card" data-in style="--i:2"><h3>Water paths tab</h3><b>Where water would run</b><p>Click any point, such as one of the 12 glacial lakes from a NASA inventory, and a line follows the slope downhill and lists the villages below it.</p><p>It uses NASA elevation data and only knows the shape of the land. It does not forecast a flood.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="t-limits">
+    <div class="col" style="width:100%; gap:36px">
+      <h2 data-in style="--i:0">What it cannot do</h2>
+      <ul class="limits">
+        <li data-in style="--i:1">It cannot warn anyone. <span>The satellite passes every 12 days, and warnings come from DHM and NDRRMA.</span></li>
+        <li data-in style="--i:2">It cannot show what people lost. <span>Radar sees that the ground changed and does not know what stood there.</span></li>
+        <li data-in style="--i:3">It includes everything in those 12 days. <span>A landslide or new construction in the same period would show up too.</span></li>
+        <li data-in style="--i:4">The data is a provisional release. <span>NASA has calibrated it and has not finished validating it.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide" id="s7">
+    <div class="col" style="width:100%; gap:40px">
+      <h2 data-in style="--i:0">Who did what</h2>
+      <div class="three">
+        <div class="card" data-in style="--i:1"><h3>Mine</h3><b>The idea and the research</b><ul><li>I chose this flood and this valley</li><li>I decided who the site is for</li><li>I read the reports, directed the work and checked the results</li></ul></div>
+        <div class="card" data-in style="--i:2"><h3>NASA data</h3><b>All of the data</b><ul><li>NISAR radar, 14 passes on 3 tracks</li><li>NASADEM elevation</li><li>High Mountain Asia glacial lake inventory</li></ul></div>
+        <div class="card" data-in style="--i:3"><h3>SI, as the rules allow</h3><b>Claude Fable 5.2, from Anthropic</b><ul><li>Wrote the code that downloaded and processed the data</li><li>Built the website and these slides</li><li>Every use is listed on the site</li></ul></div>
+      </div>
+      <div class="foot" data-in style="--i:4">
+        <p class="small" style="max-width:820px">The satellite passes every 12 days, so this cannot warn anyone. It shows where the ground changed and says nothing about what people lost.</p>
+        <p class="url">nasa.nesomotions.com<small>Code: github.com/Prabesh002/NASA</small></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav id="nav" aria-label="Slides"></nav>
+<button id="hint" type="button" style="background:none;border:0;cursor:pointer">← → to move, F for full screen</button>
+
+<script>
+(() => {
+  const stage = document.getElementById("stage"), slides = [...document.querySelectorAll(".slide")], nav = document.getElementById("nav");
+  let cur = 0;
+  document.querySelectorAll(".g100").forEach((g) => {
+    const n = +g.dataset.fill;
+    g.innerHTML = Array.from({ length: 100 }, (_, i) => `<i class="${i < n ? g.dataset.cls : ""}" style="--n:${i}"></i>`).join("");
+  });
+  const fit = () => { const s = Math.min(innerWidth / 1600, innerHeight / 900); stage.style.transform = `scale(${s}) translate(-50%, -50%)`; };
+  // restart looping clips when their slide opens, so each one starts from its first frame
+  const restart = (el) => el.querySelectorAll(".media img").forEach((img) => { const src = img.getAttribute("src").split("?")[0]; if (/compare|season/.test(src)) img.src = src + "?t=" + Date.now(); });
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (i !== cur) restart(slides[i]);
+    cur = i;
+    slides.forEach((s, k) => s.classList.toggle("on", k === i));
+    [...nav.children].forEach((b, k) => b.setAttribute("aria-current", k === i));
+    history.replaceState(null, "", "#" + (i + 1));
+  }
+  slides.forEach((_, i) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `Slide ${i + 1}`); b.onclick = () => go(i); nav.append(b); });
+  addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+    if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+    if (e.key === "Home") go(0); if (e.key === "End") go(slides.length - 1);
+    if (e.key.toLowerCase() === "f") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {});
+  });
+  stage.addEventListener("click", (e) => go(cur + (e.clientX < innerWidth * 0.3 ? -1 : 1)));
+  let tx = null;
+  addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+  addEventListener("touchend", (e) => { if (tx == null) return; const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) go(cur + (d < 0 ? 1 : -1)); tx = null; });
+  document.getElementById("hint").onclick = () => document.documentElement.requestFullscreen().catch(() => {});
+  addEventListener("resize", fit); fit();
+  go(Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+})();
+</script>
+</body>
+</html>
