@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Rasuwa flood, traced from space: presentation</title>
+<meta name="description" content="Seven slides on tracing the 26 August 2026 Rasuwa flood with NASA-ISRO NISAR radar.">
+<!-- SI disclosure (Space Apps 2026): this deck's code and layout were written with SI assistance (Claude Fable 5.2, Anthropic).
+     The clips are recordings of the project website showing NISAR measurements; they are not SI-generated imagery. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #000; --ink: #f5f5f7; --dim: #a1a1a6; --line: #2c2c2e; --panel: #111113; --red: #ff5d5d; --blue: #5aa9ff; }
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--ink); overflow: hidden; font-family: "Inter", -apple-system, "SF Pro Display", "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: 0 0; }
+.slide { position: absolute; inset: 0; padding: 96px 110px; display: flex; opacity: 0; visibility: hidden; transform: scale(1.015); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1), visibility 0s .7s; }
+.slide.on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.slide > * { min-width: 0; }
+/* one orchestrated entrance per slide */
+.slide [data-in] { opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.slide.on [data-in] { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 140ms + 200ms); }
+h1 { font-size: 84px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; text-wrap: balance; }
+h2 { font-size: 68px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
+p.big { font-size: 34px; line-height: 1.3; color: var(--dim); font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty; }
+p.big b { color: var(--ink); font-weight: 600; }
+.small { font-size: 22px; line-height: 1.4; color: var(--dim); }
+.col { display: flex; flex-direction: column; justify-content: center; gap: 34px; }
+.split { gap: 72px; align-items: center; }
+.split .col { flex: 0 0 600px; }
+.media { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.media img { width: 100%; max-height: 660px; object-fit: cover; border-radius: 28px; display: block; background: #e9edf0; box-shadow: 0 0 0 1px var(--line), 0 40px 120px rgba(90,169,255,.10); }
+.media small { font-size: 16px; color: #6e6e73; text-align: right; }
+.red { color: var(--red); } .blue { color: var(--blue); }
+
+/* 1 */
+#s1 { padding: 0; }
+#s1 img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.2) brightness(.42) contrast(1.1); }
+#s1 .veil { position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,.92) 55%, rgba(0,0,0,.25) 100%); }
+#s1 .col { position: relative; padding: 96px 110px; max-width: 1180px; gap: 40px; }
+#s1 .who { font-size: 24px; color: var(--dim); line-height: 1.5; } #s1 .who b { color: var(--ink); font-weight: 600; display: block; font-size: 28px; }
+/* 2 */
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 20px; }
+.fact { border-top: 1px solid var(--line); padding-top: 26px; }
+.fact b { display: block; font-size: 84px; line-height: 1; letter-spacing: -0.04em; font-weight: 700; }
+.fact span { display: block; margin-top: 16px; font-size: 26px; color: var(--dim); line-height: 1.3; }
+/* 4 */
+.versus { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; margin-top: 10px; }
+.versus figure { display: grid; grid-template-columns: 300px 1fr; gap: 44px; align-items: center; }
+.g100 { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+.g100 i { aspect-ratio: 1; border-radius: 5px; background: #1c1c1e; }
+.g100 i.f { background: var(--red); } .g100 i.o { background: #d1d1d6; }
+.slide.on .g100 i.f, .slide.on .g100 i.o { animation: pop .5s cubic-bezier(.2,.9,.3,1.3) both; animation-delay: calc(var(--n) * 28ms + 700ms); }
+@keyframes pop { from { transform: scale(.2); opacity: 0; } }
+.versus b { display: block; font-size: 120px; line-height: .95; letter-spacing: -0.045em; font-weight: 700; }
+.versus span { display: block; margin-top: 14px; font-size: 28px; color: var(--dim); line-height: 1.25; }
+/* 5 */
+.checks { list-style: none; padding: 0; display: grid; gap: 22px; counter-reset: c; }
+.checks li { counter-increment: c; display: grid; grid-template-columns: 54px 1fr; gap: 20px; align-items: start; font-size: 28px; line-height: 1.3; color: var(--dim); }
+.checks li::before { content: counter(c); width: 54px; height: 54px; border-radius: 50%; border: 1.5px solid #48484a; display: grid; place-items: center; color: var(--ink); font-weight: 600; font-size: 24px; }
+.checks b { color: var(--ink); font-weight: 600; display: block; }
+/* 6 */
+.for { display: grid; gap: 18px; }
+.for div { font-size: 27px; line-height: 1.3; color: var(--dim); border-top: 1px solid var(--line); padding-top: 18px; }
+.for b { color: var(--ink); font-weight: 600; }
+/* 7 */
+.three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 28px; padding: 34px 34px 36px; }
+.card h3 { font-size: 20px; font-weight: 600; color: var(--dim); margin-bottom: 14px; }
+.card b { display: block; font-size: 34px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; margin-bottom: 18px; }
+.card ul { list-style: none; padding: 0; display: grid; gap: 9px; font-size: 22px; line-height: 1.32; color: var(--dim); }
+.foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; }
+.foot .url { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; } .foot .url small { display: block; font-size: 20px; color: var(--dim); font-weight: 400; margin-top: 6px; letter-spacing: 0; }
+
+/* chrome */
+#nav { position: fixed; left: 0; right: 0; bottom: 18px; display: flex; justify-content: center; gap: 10px; z-index: 5; }
+#nav button { width: 34px; height: 6px; border-radius: 3px; border: 0; background: #3a3a3c; cursor: pointer; padding: 0; transition: background .3s, width .3s; }
+#nav button[aria-current="true"] { background: var(--ink); width: 54px; }
+#nav button:focus-visible, #hint:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+#hint { position: fixed; right: 22px; bottom: 12px; font: 500 13px Inter, system-ui, sans-serif; color: #6e6e73; z-index: 5; }
+@media (prefers-reduced-motion: reduce) { .slide, .slide [data-in] { transition: opacity .01s; transform: none; } .slide.on .g100 i { animation: none; } }
+</style>
+</head>
+<body>
+<main id="stage">
+
+  <section class="slide on" id="s1" aria-label="Slide 1 of 7">
+    <img class="bg" src="overview.webp" alt="">
+    <div class="veil"></div>
+    <div class="col">
+      <h1 data-in style="--i:0">A mountain fell into a river. A radar satellite that sees through cloud recorded where the flood went.</h1>
+      <p class="big" data-in style="--i:2">The Rasuwa flood of 26 August 2026, traced from space with NASA and ISRO’s NISAR.</p>
+      <p class="who" data-in style="--i:3"><b>Prabesh Pathak</b>NASA Space Apps Challenge 2026, Ithari. Challenge: Dancing with the SARs.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s2" aria-label="Slide 2 of 7">
+    <div class="col" style="width:100%">
+      <h2 data-in style="--i:0">After a flood, two questions come first.<br><span style="color:var(--dim)">Where did it go? How bad was it?</span></h2>
+      <div class="facts">
+        <div class="fact" data-in style="--i:2"><b>66 km</b><span>of river valley, from the source to Betrawati</span></div>
+        <div class="fact" data-in style="--i:3"><b>Monsoon</b><span>season, when cloud often hides the ground from cameras in orbit</span></div>
+        <div class="fact" data-in style="--i:4"><b>12 days</b><span>between radar passes on the same track, day or night, cloud or clear</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide split" id="s3" aria-label="Slide 3 of 7">
+    <div class="col">
+      <h2 data-in style="--i:0">Two radar passes. One before, one after.</h2>
+      <p class="big" data-in style="--i:1">NISAR flies the same track every 12 days and sees through cloud. I divided the later pass by the earlier one.</p>
+      <p class="big" data-in style="--i:2"><b>Left:</b> a normal 12 days.<br><b>Right:</b> the 12 days with the flood.<br><span class="red">Red</span> and <span class="blue">blue</span> mean the ground changed.</p>
+    </div>
+    <div class="media" data-in style="--i:1"><img src="compare.webp" alt="The compare slider moving across the source of the flood: almost no colour on the ordinary side, dense red and blue on the flood side"><small>Recorded from the project site</small></div>
+  </section>
+
+  <section class="slide" id="s4" aria-label="Slide 4 of 7">
+    <div class="col" style="width:100%; gap:56px">
+      <h2 data-in style="--i:0">What the radar found beside the river</h2>
+      <div class="versus">
+        <figure data-in style="--i:1"><div class="g100" data-fill="21" data-cls="f"></div><figcaption><b class="red">1 in 5</b><span>patches of ground changed in the flood 12 days</span></figcaption></figure>
+        <figure data-in style="--i:2"><div class="g100" data-fill="1" data-cls="o"></div><figcaption><b>1 in 80</b><span>in a normal 12 days</span></figcaption></figure>
+      </div>
+      <p class="small" data-in style="--i:3">20.7% of 129,965 radar pixels within 100 m of the river changed by more than 3 dB, against a median of 1.25% in seven other periods. Near the source it reaches 88%.</p>
+    </div>
+  </section>
+
+  <section class="slide split" id="s5" aria-label="Slide 5 of 7">
+    <div class="col">
+      <h2 data-in style="--i:0">How I know it was the flood</h2>
+      <ol class="checks">
+        <li data-in style="--i:1"><span><b>Other dates.</b>Eight periods from June to October. Seven look alike.</span></li>
+        <li data-in style="--i:2"><span><b>Other rivers.</b>Four neighbours, same days, same method. No jump.</span></li>
+        <li data-in style="--i:3"><span><b>Other angles.</b>Three satellite tracks. The change is on all three.</span></li>
+      </ol>
+    </div>
+    <div class="media" data-in style="--i:1"><img src="season.webp" alt="The season view stepping through eight 12-day periods; only the period of 19 to 31 August shows a dense trail of change"><small>Recorded from the project site. Each frame is one 12-day period.</small></div>
+  </section>
+
+  <section class="slide split" id="s6" aria-label="Slide 6 of 7">
+    <div class="col">
+      <h2 data-in style="--i:0">Click any spot. See its whole summer.</h2>
+      <p class="big" data-in style="--i:1">At the source: flat for two months, <b>up 9.3 dB</b> on the flood date, and it never went back.</p>
+      <div class="for">
+        <div data-in style="--i:2"><b>People by the river</b> find their own stretch.</div>
+        <div data-in style="--i:3"><b>Local government</b> sees which stretches were hit hardest.</div>
+        <div data-in style="--i:4"><b>Students</b> download the record and check it.</div>
+      </div>
+    </div>
+    <div class="media" data-in style="--i:1"><img src="record.webp" alt="The map at the flood source with a card charting radar brightness on ten dates; the line jumps between 19 and 31 August"><small>Recorded from the project site</small></div>
+  </section>
+
+  <section class="slide" id="s7" aria-label="Slide 7 of 7">
+    <div class="col" style="width:100%; gap:40px">
+      <h2 data-in style="--i:0">Who did what</h2>
+      <div class="three">
+        <div class="card" data-in style="--i:1"><h3>Mine</h3><b>The idea and the research</b><ul><li>Choosing this flood and this valley</li><li>Who it is for</li><li>Reading the reports, directing the work, checking the results</li></ul></div>
+        <div class="card" data-in style="--i:2"><h3>NASA data</h3><b>Every measurement</b><ul><li>NISAR radar, 14 passes on 3 tracks</li><li>NASADEM elevation</li><li>High Mountain Asia glacial lake inventory</li></ul></div>
+        <div class="card" data-in style="--i:3"><h3>SI, as the rules allow</h3><b>Claude Fable 5.2, by Anthropic</b><ul><li>Wrote the code that fetched and processed the data</li><li>Built the website and this deck</li><li>Every use is listed on the site</li></ul></div>
+      </div>
+      <div class="foot" data-in style="--i:4">
+        <p class="small" style="max-width:820px">It looks back. It cannot warn anyone: the satellite returns every 12 days. It shows where the ground changed, not what was lost.</p>
+        <p class="url">nasa.nesomotions.com<small>Code: github.com/Prabesh002/NASA</small></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav id="nav" aria-label="Slides"></nav>
+<button id="hint" type="button" style="background:none;border:0;cursor:pointer">← → to move, F for full screen</button>
+
+<script>
+(() => {
+  const stage = document.getElementById("stage"), slides = [...document.querySelectorAll(".slide")], nav = document.getElementById("nav");
+  let cur = 0;
+  document.querySelectorAll(".g100").forEach((g) => {
+    const n = +g.dataset.fill;
+    g.innerHTML = Array.from({ length: 100 }, (_, i) => `<i class="${i < n ? g.dataset.cls : ""}" style="--n:${i}"></i>`).join("");
+  });
+  const fit = () => { const s = Math.min(innerWidth / 1600, innerHeight / 900); stage.style.transform = `scale(${s}) translate(-50%, -50%)`; };
+  // restart looping clips when their slide opens, so each one starts from its first frame
+  const restart = (el) => el.querySelectorAll(".media img").forEach((img) => { const src = img.getAttribute("src").split("?")[0]; if (/compare|season/.test(src)) img.src = src + "?t=" + Date.now(); });
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (i !== cur) restart(slides[i]);
+    cur = i;
+    slides.forEach((s, k) => s.classList.toggle("on", k === i));
+    [...nav.children].forEach((b, k) => b.setAttribute("aria-current", k === i));
+    history.replaceState(null, "", "#" + (i + 1));
+  }
+  slides.forEach((_, i) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `Slide ${i + 1}`); b.onclick = () => go(i); nav.append(b); });
+  addEventListener("keydown", (e) => {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+    if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+    if (e.key === "Home") go(0); if (e.key === "End") go(slides.length - 1);
+    if (e.key.toLowerCase() === "f") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {});
+  });
+  stage.addEventListener("click", (e) => go(cur + (e.clientX < innerWidth * 0.3 ? -1 : 1)));
+  let tx = null;
+  addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+  addEventListener("touchend", (e) => { if (tx == null) return; const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) go(cur + (d < 0 ? 1 : -1)); tx = null; });
+  document.getElementById("hint").onclick = () => document.documentElement.requestFullscreen().catch(() => {});
+  addEventListener("resize", fit); fit();
+  go(Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+})();
+</script>
+</body>
+</html>
