@@ -91,6 +91,12 @@ p.big b { color: var(--ink); font-weight: 600; }
 .limits li { font-size: 32px; line-height: 1.3; padding: 22px 0; border-top: 1px solid var(--line); color: var(--ink); }
 .limits li span { color: var(--dim); }
 
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+.pair figure { display: flex; flex-direction: column; gap: 18px; }
+.pair img { width: 100%; height: 400px; object-fit: cover; object-position: 50% 45%; border-radius: 24px; display: block; background: #e9edf0; box-shadow: 0 0 0 1px var(--line); }
+.pair b { display: block; font-size: 30px; letter-spacing: -0.02em; margin-bottom: 8px; }
+.pair span { font-size: 21px; line-height: 1.38; color: var(--dim); }
+
 /* chrome */
 #nav { position: fixed; left: 0; right: 0; bottom: 18px; display: flex; justify-content: center; gap: 10px; z-index: 5; }
 #nav button { width: 34px; height: 6px; border-radius: 3px; border: 0; background: #3a3a3c; cursor: pointer; padding: 0; transition: background .3s, width .3s; }
@@ -198,11 +204,17 @@ p.big b { color: var(--ink); font-weight: 600; }
   </section>
 
   <section class="slide" id="t-more">
-    <div class="col" style="width:100%; gap:40px">
+    <div class="col" style="width:100%; gap:30px">
       <h2 data-in style="--i:0">Two more things on the site</h2>
-      <div class="two">
-        <div class="card" data-in style="--i:1"><h3>Glaciers tab</h3><b>The ice above the valley</b><p>Wet snow sends back a weaker radar echo. Above 6,000 m, 33% of the ice had a much weaker echo by 31 August than on 20 June, and by 18 October it was back to 7%.</p><p>This may be a sign of melting. I could not check it on the ground.</p></div>
-        <div class="card" data-in style="--i:2"><h3>Water paths tab</h3><b>Where water would run</b><p>Click any point, such as one of the 12 glacial lakes from a NASA inventory, and a line follows the slope downhill and lists the villages below it.</p><p>It uses NASA elevation data and only knows the shape of the land. It does not forecast a flood.</p></div>
+      <div class="pair">
+        <figure data-in style="--i:1">
+          <img src="glacier.webp" style="object-position:50% 68%" alt="The Glaciers tab: glacier outlines around Langtang Lirung, with blue patches where the radar echo on 31 August is weaker than on 20 June">
+          <figcaption><b>The ice above the valley</b><span>Wet snow sends back a weaker radar echo. Above 6,000 m, 33% of the ice had a much weaker echo by 31 August than on 20 June, and it was back to 7% by 18 October. This may be melting. I could not check it on the ground.</span></figcaption>
+        </figure>
+        <figure data-in style="--i:2">
+          <img src="water.webp" alt="The Water paths tab: a black line following the slope from the flood source down past Rasuwagadhi, Syabrubesi and Betrawati">
+          <figcaption><b>Where water would run</b><span>Click any point and a line follows the slope downhill and lists the villages below it. From the flood source it passes Rasuwagadhi, Syabrubesi and Betrawati. It uses NASA elevation data and does not forecast a flood.</span></figcaption>
+        </figure>
       </div>
     </div>
   </section>
