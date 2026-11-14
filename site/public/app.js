@@ -106,17 +106,14 @@
       let html = "";
       if (ord.length) {
         const med = median(ord), mx = Math.max(...ord), ratio = ev / med;
-        html += `<p class="headline"><b>${ev.toFixed(0)}%</b> of the riverside ground changed here in the flood 12 days. `
-          + (ev > mx ? `That is about <b>${ratio >= 10 ? ratio.toFixed(0) : ratio.toFixed(1)} times</b> an ordinary 12 days, and more than any of the ${ord.length} ordinary periods measured.`
-                     : `That is inside the range of the ${ord.length} ordinary periods measured.`) + `</p>`
-          + `<div class="cmp" role="img" aria-label="Flood 12 days ${ev.toFixed(1)} percent, ordinary 12 days ${med.toFixed(1)} percent">`
-          + `<span>Flood 12 days</span><span class="track"><i class="f" style="width:${(100 * ev) / scale}%"></i></span><span class="val">${ev.toFixed(1)}%</span>`
-          + `<span>Ordinary 12 days</span><span class="track"><i class="o" style="width:${(100 * med) / scale}%"></i></span><span class="val">${med.toFixed(1)}%</span></div>`
-          + `<p class="fine">Share of ground within ${stats.buffer_m} m of the river line whose radar brightness (HH) changed by more than 3 dB. Flood: 19 to 31 August. Ordinary: the median of ${ord.length} other 12-day periods, June to October 2026 (the highest was ${mx.toFixed(1)}%). NISAR track 98.</p>`;
+        html += `<p class="stat"><b>${ev.toFixed(0)}%</b><span>of the riverside changed here</span></p>`
+          + `<div class="cmp" role="img" aria-label="Flood 12 days ${ev.toFixed(1)} percent, normal 12 days ${med.toFixed(1)} percent">`
+          + `<span>Flood</span><span class="track"><i class="f" style="width:${(100 * ev) / scale}%"></i></span><span class="val">${ev.toFixed(0)}%</span>`
+          + `<span>Normal</span><span class="track"><i class="o" style="width:${(100 * med) / scale}%"></i></span><span class="val">${med.toFixed(1)}%</span></div>`
+          + `<p class="vs">${ev > mx ? `About ${ratio >= 10 ? ratio.toFixed(0) : ratio.toFixed(1)} times a normal 12 days.` : `Inside the normal range for this stretch (up to ${mx.toFixed(1)}%).`}</p>`;
       } else {
-        html += `<p class="headline"><b>${ev.toFixed(0)}%</b> of the riverside ground changed here between 19 and 31 August.</p>`;
+        html += `<p class="stat"><b>${ev.toFixed(0)}%</b><span>of the riverside changed here</span></p>`;
       }
-      html += `<button type="button" class="goto" data-goto="${key}">Show this stretch on the map</button>`;
       box.innerHTML = html;
     }
     document.addEventListener("click", (e) => { const g = e.target.closest("[data-goto]"); if (g) { setMode("flood"); goChapter(g.dataset.goto, true); } });
@@ -131,7 +128,7 @@
     for (let t = 0; t <= max; t += 5) svg += `<line x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${top + keys.length * rowH}" stroke="#d3dbe0"/><text x="${x(t)}" y="${top + keys.length * rowH + 16}" text-anchor="${t ? "middle" : "start"}">${t}%</text>`;
     keys.forEach((k, r) => {
       const y = top + r * rowH, P = stats.paths[k];
-      svg += `<text class="row-label" x="${L}" y="${y + 15}">${k === "flood" ? P.label : P.label.replace(/^Control: (.)/, (m, c) => c.toUpperCase()) + " (control)"}</text>`;
+      svg += `<text class="row-label" x="${L}" y="${y + 15}">${{ flood: "Flood path", lende_upper: "Upper Lende Khola", kyirong: "Kyirong Tsangpo", langtang: "Langtang Khola", chilime: "Chilime Khola" }[k] || P.label}</text>`;
       for (const [pair, s] of Object.entries(P.series)) {
         const v = s.HHHH.whole_path.pct_beyond_3dB, ev = pair === EVENT;
         svg += `<circle cx="${x(v)}" cy="${y + 31}" r="${ev ? 7 : 5}" fill="${ev ? "#b2182b" : "#ffffff"}" stroke="${ev ? "#b2182b" : "#46555f"}" stroke-width="1.5"><title>${pair.replace("_", " to ")}: ${v}%</title></circle>`;
@@ -337,6 +334,7 @@
     }
     pathStyle(map, c); if (map2Ready) pathStyle(map2, c);
     setHere(c.kmAt ? kmOf(flow, c.kmAt) : null);
+    if ($("#stepper")) updateStepper();
   }
   function onScroll() {
     if (playRaf) return;
@@ -411,7 +409,7 @@
     const steps = seasonSteps(); seasonIdx = Math.max(0, Math.min(steps.length - 1, i));
     const s = steps[seasonIdx];
     $("#season-range").max = steps.length - 1; $("#season-range").value = seasonIdx;
-    $("#season-label").innerHTML = `<b>${fmtDate(s.a)} to ${fmtDate(s.b)}</b> ${s.event ? "the flood period" : "ordinary period"}, ${wholePct(s).toFixed(1)}% of the riverside changed`;
+    $("#season-label").innerHTML = `<b>${fmtDate(s.a)} to ${fmtDate(s.b)}</b> ${s.event ? "The flood." : "A normal period."} ${wholePct(s).toFixed(1)}% of the riverside changed.`;
     applyLayers();
   }
   function seasonPlay(on) {
@@ -443,39 +441,34 @@
     if (!ord.length) return;
     const med = median(ord), lo = Math.min(...ord), hi = Math.max(...ord);
     const grid = (n, cls) => `<span class="grid100" aria-hidden="true">${Array.from({ length: 100 }, (_, i) => `<i class="${i < n ? cls : ""}"></i>`).join("")}</span>`;
-    $("#finding").innerHTML = `<h3>What the radar found</h3>`
+    $("#finding").innerHTML = ``
       + `<p class="say">After the flood, about <b>1 in ${Math.round(100 / ev.pct_beyond_3dB)}</b> patches of ground beside the river looked different to the radar. In a normal 12 days it is about <b>1 in ${Math.round(100 / med)}</b>.</p>`
       + `<div class="grids"><figure>${grid(Math.round(ev.pct_beyond_3dB), "f")}<figcaption><b>Flood 12 days</b>${Math.round(ev.pct_beyond_3dB)} of every 100 patches changed</figcaption></figure>`
       + `<figure>${grid(Math.max(1, Math.round(med)), "o")}<figcaption><b>Ordinary 12 days</b>about ${Math.max(1, Math.round(med))} of every 100</figcaption></figure></div>`
-      + `<p class="fine">Exact figures: ${ev.pct_beyond_3dB}% of ${ev.n_px.toLocaleString("en")} radar pixels within ${stats.buffer_m} m of the ${F.length_km.toFixed(0)} km flood path changed by more than 3 dB (a doubling or halving of the echo) between 19 and 31 August. In ${ord.length} other 12-day periods the figure ran from ${lo}% to ${hi}%, median ${med}%. “Patch” here means one 10 m radar pixel.</p>`;
+      + `<details class="sources"><summary>Exact figures</summary><p>${ev.pct_beyond_3dB}% of ${ev.n_px.toLocaleString("en")} radar pixels within ${stats.buffer_m} m of the ${F.length_km.toFixed(0)} km flood path changed by more than 3 dB (a doubling or halving of the echo) between 19 and 31 August. In ${ord.length} other 12-day periods the figure ran from ${lo}% to ${hi}%, median ${med}%. “Patch” means one 10 m radar pixel.</p></details>`;
   }
 
   /* ---------- glaciers ---------- */
   function setGlacier(i) {
     const d = glacierMeta.overlay_dates[i];
-    $("#glacier-label").innerHTML = `<b>${fmtDate(d)}</b> compared with ${fmtDate(glacierMeta.reference_date)}`;
+    $("#glacier-label").innerHTML = `Glacier echo on <b>${fmtDate(d)}</b> against ${fmtDate(glacierMeta.reference_date)}. Blue = weaker, a possible sign of melt.`;
     const src = map.getSource("glacier-img");
     if (src) src.updateImage({ url: "/data/glacier/" + glacierMeta.overlay_files[i], coordinates: glacierMeta.corners_lonlat });
   }
   function drawGlacierFig() {
-    const G = glacierMeta, W = 440, H = 240, L = 40, Rr = 124, T = 12, B = 30, n = G.dates.length;
-    const t = G.dates.map((d) => Date.parse(d)), x = (i) => L + ((t[i] - t[0]) / (t[n - 1] - t[0])) * (W - L - Rr);
-    const all = G.bands.flatMap((b) => b.median_db), lo = Math.floor(Math.min(...all)), hi = Math.ceil(Math.max(...all)), y = (v) => T + ((hi - v) / (hi - lo)) * (H - T - B);
+    const G = glacierMeta, b = G.bands[G.bands.length - 1], sh = b.share_fell_3db_vs_first, n = G.dates.length;
+    const W = 440, H = 180, L = 34, B = 30, T = 16, max = Math.ceil(Math.max(...sh) / 10) * 10, bw = (W - L - 6) / n, y = (v) => T + (1 - v / max) * (H - T - B);
     let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-    for (let v = lo; v <= hi; v++) s += `<line x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}" stroke="${RULE}"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v} dB</text>`;
-    [0, 5, n - 1].forEach((i) => { s += `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}">${fmtDate(G.dates[i])}</text>`; });
-    const ly = G.bands.map((b) => y(b.median_db[n - 1]) + 4), order = ly.map((v, i) => i).sort((a, b) => ly[a] - ly[b]);
-    for (let q = 1; q < order.length; q++) if (ly[order[q]] - ly[order[q - 1]] < 15) ly[order[q]] = ly[order[q - 1]] + 15;
-    G.bands.forEach((b, k) => {
-      const top = k === G.bands.length - 1, col = top ? "#2166ac" : INK2;
-      s += `<path d="${b.median_db.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("")}" fill="none" stroke="${col}" stroke-width="${top ? 3 : 1.5}"/>`
-        + b.median_db.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="${top ? 3.5 : 2.5}" fill="${col}"><title>${fmtDate(G.dates[i])}: ${v} dB</title></circle>`).join("")
-        + `<text x="${W - Rr + 8}" y="${ly[k]}" class="${top ? "row-label" : ""}">${top ? `above ${b.from_m.toLocaleString("en")} m` : `${b.from_m.toLocaleString("en")} to ${b.to_m.toLocaleString("en")} m`}</text>`;
+    for (let t = 0; t <= max; t += 10) s += `<line x1="${L}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="${RULE}"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t}%</text>`;
+    sh.forEach((v, i) => {
+      const x = L + i * bw + 4;
+      s += `<rect x="${x}" y="${y(v)}" width="${bw - 8}" height="${Math.max(1.5, y(0) - y(v))}" rx="3" fill="#2166ac"><title>${fmtDate(G.dates[i])}: ${v}%</title></rect>`
+        + (i % 2 === 0 ? `<text x="${x + (bw - 8) / 2}" y="${H - B + 16}" text-anchor="middle">${fmtDate(G.dates[i]).replace(" ", "\u00a0")}</text>` : "");
     });
     $("#glacier-fig").innerHTML = s + "</svg>";
-    const b = G.bands[G.bands.length - 1], sh = b.share_fell_3db_vs_first, k = sh.indexOf(Math.max(...sh));
-    $("#glacier-say").innerHTML = `Each line is the typical echo of glacier ice in one height band. Above ${b.from_m.toLocaleString("en")} m the echo sank through July and August and came back in October. By ${fmtDate(G.dates[k])}, <b>${sh[k].toFixed(0)}%</b> of that ice had lost more than 3 dB since 20 June. By ${fmtDate(G.dates[n - 1])} it was ${sh[n - 1].toFixed(0)}%.`;
-    $("#lake-say").innerHTML = `The ringed lakes are the ${terrainMeta.lakes.count} glacial lakes that NASA's High Mountain Asia inventory maps in this area for 2015 to 2018. Click one to see where its water would run.`;
+    const k = sh.indexOf(Math.max(...sh));
+    $("#glacier-say").innerHTML = `Ice above ${b.from_m.toLocaleString("en")} m with a much weaker echo than on 20 June: <b>${sh[k].toFixed(0)}%</b> by ${fmtDate(G.dates[k])}, back to ${sh[n - 1].toFixed(0)}% by ${fmtDate(G.dates[n - 1])}.`;
+    $("#lake-say").innerHTML = `The rings are ${terrainMeta.lakes.count} glacial lakes from a NASA inventory. Click one to see where its water would run.`;
   }
 
   /* ---------- card ---------- */
@@ -582,6 +575,37 @@
     else inspect(e.lngLat);
   }
 
+  /* ---------- stepper: previous / next through the story, also with the arrow keys ---------- */
+  const STEP_NAMES = { intro: "Start", source: "The source", lende: "Lende Khola", rasuwagadhi: "Rasuwagadhi", minutes: "The warning", syabrubesi: "Syabrubesi",
+    betrawati: "Betrawati", season: "Was it normal?", glaciers: "The ice", water: "Where water goes", research: "Use the data", method: "How we know", prepare: "Official warnings", credits: "Credits" };
+  const stepList = () => $$(".chapter").map((el) => el.dataset.chapter);
+  function goStep(delta) {
+    const list = stepList(), i = Math.max(0, list.indexOf(currentChapter)), j = Math.max(0, Math.min(list.length - 1, i + delta));
+    const el = $(`.chapter[data-chapter="${list[j]}"]`), off = isNarrow() ? innerHeight * 0.48 + 44 : 52;
+    scrollTo({ top: j === 0 ? 0 : el.getBoundingClientRect().top + scrollY - off, behavior: reduceMotion ? "auto" : "smooth" });
+  }
+  function updateStepper() {
+    const list = stepList(), i = Math.max(0, list.indexOf(currentChapter));
+    $("#step-name").textContent = STEP_NAMES[list[i]] || "";
+    $("#step-count").textContent = `${i + 1} of ${list.length}`;
+    $("#step-bar i").style.width = `${((i + 1) / list.length) * 100}%`;
+    $("#step-prev").disabled = i === 0; $("#step-next").disabled = i === list.length - 1;
+    $("#step-next").textContent = i < list.length - 1 ? `Next: ${STEP_NAMES[list[i + 1]]}` : "End";
+  }
+  function setupStepper() {
+    $("#story").insertAdjacentHTML("afterbegin", `<nav id="stepper" aria-label="Story steps"><div class="step-row">`
+      + `<button type="button" id="step-prev" aria-label="Previous step">Back</button><span class="step-where"><b id="step-name"></b><small id="step-count"></small></span>`
+      + `<button type="button" id="step-next"></button></div><div id="step-bar"><i></i></div></nav>`);
+    $("#step-prev").addEventListener("click", () => goStep(-1));
+    $("#step-next").addEventListener("click", () => goStep(1));
+    addEventListener("keydown", (e) => {
+      if (e.target.closest("input, select, textarea, [contenteditable]") || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.key === "ArrowRight") { e.preventDefault(); goStep(1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goStep(-1); }
+    });
+    updateStepper();
+  }
+
   let map2 = null, map2Ready = false;
   async function init() {
     const [sty, st, fp, lm, gm, tm] = await Promise.all([
@@ -608,7 +632,7 @@
       addData(map);
       if (isNarrow()) { const at = $(".maplibregl-ctrl-attrib"); if (at) { at.classList.remove("maplibregl-compact-show"); at.removeAttribute("open"); } }
       addExtras();
-      setupControls();
+      setupControls(); setupStepper();
       fillMeasures(); drawDotplot(); drawProfile(); drawFinding(); drawSeasonFig(); drawGlacierFig();
       addEventListener("scroll", onScroll, { passive: true });
       addEventListener("resize", () => { drawProfile(); if (map2) map2.resize(); });

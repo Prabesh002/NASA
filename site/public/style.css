@@ -223,3 +223,34 @@ body[data-mode="water"] #map canvas, body[data-mode="flood"] #map canvas, body[d
   .cmp { grid-template-columns: 7.2rem 1fr 3.2rem; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- less text, bigger signals ---------- */
+.key { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; align-items: center; margin: 0 0 0.9rem; font-size: 0.95rem; font-weight: 600; }
+.key span { display: inline-flex; align-items: center; gap: 0.45rem; } .key span:last-child { font-weight: 400; color: var(--ink-2); }
+.next { margin: 0; font-size: 0.95rem; color: var(--ink-2); }
+.user-text { font-size: 1.08rem; line-height: 1.5; }
+.measure .stat { margin: 0 0 0.7rem; display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
+.measure .stat b { font-size: 3rem; line-height: 1; font-weight: 800; font-stretch: 112%; font-variant-numeric: tabular-nums; }
+.measure .stat span { font-size: 1.05rem; font-weight: 600; }
+.measure .vs { margin: 0.6rem 0 0; font-size: 0.98rem; font-weight: 600; }
+.cmp { grid-template-columns: 4.2rem 1fr 3.2rem; }
+.checks { list-style: none; counter-reset: c; margin: 0 0 1.2rem; padding: 0; display: grid; gap: 0.6rem; }
+.checks li { counter-increment: c; background: var(--wash); border-radius: 12px; padding: 0.75rem 0.9rem 0.8rem 3rem; position: relative; }
+.checks li::before { content: counter(c); position: absolute; left: 0.85rem; top: 0.75rem; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 700; font-size: 0.9rem; display: grid; place-items: center; }
+.sources p { margin: 0.5rem 0 0; } .sources table { margin-top: 0.4rem; }
+#finding .sources { margin-top: 0.8rem; }
+.chapter:not(.is-title):not(.is-wide) { min-height: 56vh; }
+@media (max-width: 860px) { .cmp { grid-template-columns: 4.2rem 1fr 3.2rem; } .measure .stat b { font-size: 2.5rem; } }
+
+/* ---------- stepper ---------- */
+#stepper { position: sticky; top: 0; z-index: 4; background: rgba(255,255,255,.97); border-bottom: 1px solid var(--rule); }
+.step-row { display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem clamp(0.7rem, 2vw, 1.4rem); }
+.step-where { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 0.5rem; }
+.step-where b { font-weight: 750; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.step-where small { color: var(--ink-2); font-size: 0.82rem; white-space: nowrap; }
+#stepper button { border: 1.5px solid var(--ink); background: var(--paper); border-radius: 999px; min-height: 36px; padding: 0 0.85rem; font-weight: 650; font-size: 0.88rem; cursor: pointer; white-space: nowrap; }
+#stepper #step-next { background: var(--ink); color: var(--paper); }
+#stepper button:disabled { opacity: 0.35; cursor: default; }
+#step-bar { height: 3px; background: var(--wash); } #step-bar i { display: block; height: 100%; background: var(--ink); transition: width .3s; }
+@media (max-width: 860px) { #stepper { top: 48vh; top: 48dvh; } .step-where small { display: none; } #stepper button { padding: 0 0.65rem; font-size: 0.8rem; } }
+@media (prefers-reduced-motion: reduce) { #step-bar i { transition: none; } }
