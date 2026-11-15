@@ -9,8 +9,8 @@ Main result: across the flood (19 to 31 August), 20.7% of the radar pixels withi
 changed by more than 3 dB. In seven other 12-day periods from June to October the figure was 0.8% to 3.8%,
 and four neighbouring rivers showed no jump on the same dates.
 
-Live site: https://nasa.nesomotions.com (after deployment). Slides: `/deck/` (full talk) and
-`/deck/seven.html` (seven slides, for the submission).
+Live site: https://nasa.nesomotions.com (after deployment). Slides: `/slide/` (seven slides, for the submission) and
+`/local-presentation/` (full 11-slide talk for the in-room presentation).
 
 ## What you can do on the site
 
