@@ -45,6 +45,26 @@ https://nasa.nesomotions.com  (must be public, no login; check in a private wind
 - Tools and languages: Python (rasterio, NumPy, Pillow, harmony-py), JavaScript, HTML, CSS, Node.js,
   MapLibre GL JS 4.7.1, Cloudflare Workers static assets, Wrangler.
 
+SI draft written 2026-11-15 at the user's request (Claude Opus 5.5). Review and edit before pasting:
+
+> **What it does.** The site follows the 26 August 2026 Rasuwa flood down the valley, from the source below Langtang Lirung, along the Lende Khola, Bhotekoshi and Trishuli, past Rasuwagadhi, Timure and Syabrubesi to Betrawati, 66 km downstream. At each stop the map shows where NISAR radar saw the ground change across the flood, with a short note and its sources. You can:
+> - slide between the flood 12 days and a normal 12 days to see the difference
+> - play the flood down the valley with the times ICIMOD reported
+> - click any spot to see its radar record over ten dates (20 June to 18 October) and download it as a CSV
+> - step through the summer to see that only the flood period lights up
+> - look at radar change on the glaciers above the valley and the glacial lakes from NASA's HMA_GLI inventory
+> - click anywhere to trace where water runs downhill, using NASA's NASADEM elevation model
+>
+> **How it works.** I downloaded NISAR L2 GCOV radar (provisional release, via NASA Harmony and the ASF DAAC) for three satellite tracks. For each pair of passes 12 days apart, I measured the change in radar echo (log-ratio in decibels). Along the traced river path, 20.7% of ground within 100 m of the river changed by more than 3 dB in the flood period, against a median of 1.25% in seven ordinary periods; near the source it reaches 88%. Four neighbouring rivers outside the flood path showed no such jump. All processing runs offline in Python scripts that log every source URL. The results are turned into map tiles and served as a static website on Cloudflare Workers.
+>
+> **Benefits and intended impact.** ICIMOD reports that there was no warning for Rasuwagadhi and Timure. The site is written in plain English for residents and local government, to show where the water went, and it links to Nepal's official agencies (DHM, NDRRMA, BIPAD). Radar sees through cloud and works at night, which matters in the monsoon. The same steps could be repeated for another valley after the next flood.
+>
+> **Creativity.** Instead of a single before/after picture, every result is shown against a normal 12 days, so a non-expert can see what "unusual" looks like. The story moves down the river the way the flood did, and any point on the map can be clicked to see its own radar history.
+>
+> **Factors we considered.** The NISAR data is provisional. Steep slopes distort radar. One track switches imaging mode between dates, so I used the cleanest pair (track 98 ascending). Change is not the same as damage, and 12 days includes everything that happened in that time. River lines from OpenStreetMap can be tens of metres off. The site does not invent evacuation routes or safe zones. All these limits are shown on the site's method page.
+>
+> **Tools.** Python (rasterio, NumPy, Pillow, harmony-py, pysheds), JavaScript, HTML, CSS, Node.js, MapLibre GL JS 4.7.1, Cloudflare Workers static assets and Wrangler, headless Chrome for the slide clips. No hardware. SI (Claude by Anthropic, through Claude Code) was used for research, coding, data processing and writing; details are at https://nasa.nesomotions.com/si-usage.html
+
 ## 6. NASA data and resources used: FACTS
 - NISAR L2 GCOV, provisional release (collection C2854338529-ASF, CRID P05023), NASA/JPL and ISRO,
   distributed by the Alaska Satellite Facility DAAC. Tracks 98A (10 dates, 20 Jun - 18 Oct 2026),
