@@ -20,6 +20,14 @@ Facts you may want to draw on (all from `research/story-facts.md`, with sources 
 - The change enters the Lende Khola from the Langtang Lirung side, not from the north.
 - Audience and purpose: yours to state.
 
+SI draft written 2026-11-15 at the user's request (Claude Opus 5.5). Review it and change it to your own words before pasting:
+
+> I built an interactive story map of the flood that hit Rasuwa, Nepal, on 26 August 2026, using radar from the NASA–ISRO NISAR satellite. A slab of rock and ice fell from Langtang Lirung, and the flood ran down the Lende Khola, Bhotekoshi and Trishuli past Rasuwagadhi, Timure, Syabrubesi and Betrawati. I compared NISAR passes from before and after the flood and mapped where the ground changed.
+>
+> The radar shows the flood path clearly. About 1 in 5 patches of ground beside the river changed strongly (20.7% by more than 3 dB). In a normal 12 days it is about 1 in 80 (median 1.25% over seven ordinary periods). Four neighbouring rivers showed no such jump on the same dates. On the site you can follow the flood from its source to Betrawati, compare it with a normal 12 days, click any spot to see its radar record over ten dates, look at the glaciers above the valley, and trace where water runs downhill on NASA elevation data.
+>
+> This matters because the flood reached Rasuwagadhi and Timure before any warning went out (ICIMOD). The site is written in plain English for residents and local government: it shows where the water went and links to Nepal's official flood and disaster agencies. It is a prototype built on provisional data, and the site explains its limits.
+
 ## 3. Demo link: YOU (video of 30 s or less, or 7 slides or fewer; English; public, no login)
 Going over the limit makes the project ineligible for global judging. A screen recording of the site
 scrolling from the source to Betrawati fits in 30 s. If SI generates any image or video for it, it needs a
